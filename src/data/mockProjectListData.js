@@ -7,8 +7,8 @@ export default {
     dataFile: "1abc.xlsx",
     createdBy: "nevilgultekin",
     model: "supervised",
-    algorithms: [ "alg1", "alg2", "alg3", "alg4" ],
-    features: [ "age", "gender", "test1", "test2", "test3"],
+    algorithms: [ 'A' ],
+    features: [ "age", "gender", "test2", "test3"],
     label: [ "diagnose"]
   },
   "2": {
@@ -18,8 +18,8 @@ export default {
     description: "2aim is to diagnose for abc",
     dataFile: "2abc.xlsx",
     createdBy: "nevilgultekin",
-    model: "supervised",
-    algorithms: [ "alg1", "alg2", "alg3", "alg4" ],
+    model: "unsupervised",
+    algorithms: [ 'B' ],
     features: [ "age", "gender", "test1", "test2", "test3"],
     label: [ "diagnose"]
   },
@@ -31,7 +31,7 @@ export default {
     dataFile: "3abc.xlsx",
     createdBy: "nevilgultekin",
     model: "supervised",
-    algorithms: [ "alg1", "alg2", "alg3", "alg4" ],
+    algorithms: [ 'X' ],
     features: [ "age", "gender", "test1", "test2", "test3"],
     label: [ "diagnose"]
   },
@@ -43,7 +43,7 @@ export default {
     dataFile: "4abc.xlsx",
     createdBy: "nevilgultekin",
     model: "supervised",
-    algorithms: [ "alg1", "alg2", "alg3", "alg4" ],
+    algorithms: [ 'C' ],
     features: [ "age", "gender", "test1", "test2", "test3"],
     label: [ "diagnose"]
   }

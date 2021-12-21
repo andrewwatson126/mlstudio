@@ -8,7 +8,6 @@ import mockProjectListData from "../data/mockProjectListData";
 import { useHistory, useLocation } from 'react-router-dom'
 
 
-
 const useStyles = makeStyles((theme) => ({
   projectListContainer: {
     backgroundColor: theme.palette.common.white,
