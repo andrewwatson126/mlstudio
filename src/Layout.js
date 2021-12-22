@@ -44,7 +44,7 @@ export default function Layout({ children }) {
     { name: "View Correlation", icon: <SubjectOutlined color="primary" />, path: '/1' },
     { name: "View Model",       icon: <SubjectOutlined color="primary" />, path: '/1' },
     { name: "Predict",          icon: <SubjectOutlined color="primary" />, path: '/1' },
-    { name: "Vide Data",        icon: <SubjectOutlined color="primary" />, path: '/' }
+    { name: "View Data",        icon: <SubjectOutlined color="primary" />, path: '/' }
   ];
 
   const buildListItems = (item) => {

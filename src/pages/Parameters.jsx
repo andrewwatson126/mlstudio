@@ -4,7 +4,9 @@ import Button from '@mui/material/Button';
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import mockProjectListData from "../data/mockProjectListData";
+import algorithmListData from "../data/algorithmListData";
 import { useHistory, useLocation } from 'react-router-dom'
+import Alert from '@mui/material/Alert';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,67 +33,62 @@ const Parameters = props => {
   const history = useHistory();
 
   const featureNames = [
-    { id: 0, label: "Age", name: "age" },
-    { id: 1, label: "Gender", name: "gender" },
-    { id: 2, label: "Test1", name: "test1" },
-    { id: 3, label: "Test2", name: "test2" },
-    { id: 4, label: "Test3", name: "test3" },
-    { id: 5, label: "Diagnose", name: "diagnose" }
+    { label: "Age", name: "age" },
+    { label: "Gender", name: "gender" },
+    { label: "Test1", name: "test1" },
+    { label: "Test2", name: "test2" },
+    { label: "Test3", name: "test3" },
+    { label: "Diagnose", name: "diagnose" }
   ];
 
-  const getInitialFeatureIds = () => {
-    let initialFeatureIds = []
+  const getInitialFeatureLabels = () => {
+    let initialFeatureLabels = []
     featureNames.map((feature) => (
       mockProjectListData[projectId].features.map((projectFeature) => (
-        //console.log('mockProjectListData[projectId]=' + mockProjectListData[projectId] + ' projectId=' + projectId + ' feature.name=' + feature.name + ' projectFeature=' + projectFeature)
-        //feature.name === projectFeature ? console.log('mockProjectListData[projectId]=' + mockProjectListData[projectId] + ' projectId=' + projectId + ' feature.name=' + feature.name + ' projectFeature=' + projectFeature, ' feature.id=' + feature.id) : console.log('not')
-        feature.name === projectFeature ? initialFeatureIds.push(feature.id) : console.log('not')
+        feature.name === projectFeature ? initialFeatureLabels.push(feature.label) : console.log('not')
       ))))
-    console.log('getInitialFeatureIds=' + initialFeatureIds);
-    return initialFeatureIds;
+    console.log('getInitialFeatureLabels=' + initialFeatureLabels);
+    return initialFeatureLabels;
   }
 
-  const getInitialLabelIds = () => {
-    let initialLabelIds = []
+  const getInitialLabelLabels = () => {
+    let initialLabelLabels = []
     featureNames.map((feature) => (
       mockProjectListData[projectId].label.map((projectLabel) => (
-        //console.log('mockProjectListData[projectId]=' + mockProjectListData[projectId] + ' projectId=' + projectId + ' feature.name=' + feature.name + ' projectFeature=' + projectFeature)
-        //feature.name === projectFeature ? console.log('mockProjectListData[projectId]=' + mockProjectListData[projectId] + ' projectId=' + projectId + ' feature.name=' + feature.name + ' projectFeature=' + projectFeature, ' feature.id=' + feature.id) : console.log('not')
-        feature.name === projectLabel ? initialLabelIds.push(feature.id) : console.log('not')
+        feature.name === projectLabel ? initialLabelLabels.push(feature.label) : console.log('not')
       ))))
-    console.log('getInitialFeatureIds=' + initialLabelIds);
-    return initialLabelIds;
+    console.log('getInitialFeatureLabels=' + initialLabelLabels);
+    return initialLabelLabels;
   }
 
   const [project, setProject] = useState(mockProjectListData[projectId]);
   const [model, setModel] = useState(mockProjectListData[projectId].model);
   const [algorithms, setAlgorithms] = useState(mockProjectListData[projectId].algorithms);
-  const [featureIds, setFeatures] = useState(getInitialFeatureIds);
-  const [labelIds, setLabels] = useState(getInitialLabelIds);
+  const [featureLabels, setFeatures] = useState(getInitialFeatureLabels);
+  const [labelLabels, setLabels] = useState(getInitialLabelLabels);
 
 
-  const handleFeature = featureId => {
-    console.log('featureId=' + featureId);
-    const newIds = featureIds?.includes(featureId)
-      ? featureIds.filter(id => id !== featureId)
-      : [...(featureIds ?? []), featureId];
-    setFeatures(newIds);
-    console.log('newIds=' + newIds);
-    //setFeatures({ ...features, [event.target.name]: event.target.checked });
+  const handleFeature = featureLabel => {
+    console.log('featureLabel=' + featureLabel);
+    const newLabels = featureLabels?.includes(featureLabel)
+      ? featureLabels.filter(label => label !== featureLabel)
+      : [...(featureLabels ?? []), featureLabel];
+    setFeatures(newLabels);
+    console.log('newLabels=' + newLabels);
   };
 
 
-  const handleLabel = labelId => {
-    console.log('labelId=' + labelId);
-    const newIds = labelIds?.includes(labelId)
-      ? labelIds.filter(id => id !== labelId)
-      : [...(labelIds ?? []), labelId];
-    setLabels(newIds);
-    console.log('newIds=' + newIds);
-    //setFeatures({ ...features, [event.target.name]: event.target.checked });
+  const handleLabel = labelLabel => {
+    console.log('labelLabel=' + labelLabel);
+    const newLabels = labelLabels?.includes(labelLabel)
+      ? labelLabels.filter(label => label !== labelLabel)
+      : [...(labelLabels ?? []), labelLabel];
+    setLabels(newLabels);
+    console.log('newLabels=' + newLabels);
   };
 
   const handleSubmit = (value) => {
+    console.log('handleSubmit called')
   }
 
 
@@ -115,6 +112,7 @@ const Parameters = props => {
               <div>Algorithm: {project.algorithms.map((algorithm) => <div>{algorithm} </div>)}</div>
               <div> Features: {project.features.map((feature) => <div>{feature} </div>)}</div>
               <div> Label: {project.label.map((label) => <div>{label} </div>)}</div>
+              <br />
 
               <form onSubmit={handleSubmit}>
                 <Grid container>
@@ -136,9 +134,9 @@ const Parameters = props => {
                     <FormLabel>Algorithm</FormLabel>
                     <Select name="algorithm" value={algorithms} onChange={(e) => { setAlgorithms(e.target.value); }} labelId="algorithm" id="alogrithm" label="Algorithm" multiple >
                       <MenuItem key={'X'} value={'X'}>All</MenuItem>
-                      <MenuItem key={'A'} value={'A'}>AlgorithmA</MenuItem>
-                      <MenuItem key={'B'} value={'B'}>AlgorithmB</MenuItem>
-                      <MenuItem key={'C'} value={'C'}>AlgorithmC</MenuItem>
+                      {algorithmListData.map((algorithm) =>
+                        <MenuItem key={algorithm.label} value={algorithm.label}>{algorithm.label}</MenuItem>
+                      )}
                     </Select>
                     <FormHelperText>Select one or more algorithms you would like to use</FormHelperText>
                   </Grid>
@@ -148,7 +146,7 @@ const Parameters = props => {
                     <FormLabel>Features</FormLabel>
                     <FormGroup>
                       {featureNames.map((feature) =>
-                        <FormControlLabel key={feature.name} control={<Checkbox name="{feature.name}" checked={featureIds.includes(feature.id)} onChange={() => { handleFeature(feature.id); }} />} label={feature.label} />
+                        <FormControlLabel key={feature.label} control={<Checkbox name="{feature.name}" checked={featureLabels.includes(feature.label)} onChange={() => { handleFeature(feature.label); }} />} label={feature.label} />
                       )}
                     </FormGroup>
 
@@ -156,13 +154,22 @@ const Parameters = props => {
                     <FormLabel>Labels</FormLabel>
                     <FormGroup>
                       {featureNames.map((label) =>
-                        <FormControlLabel key={label.name} control={<Checkbox name="{label.name}" checked={labelIds.includes(label.id)} onChange={() => { handleLabel(label.id); }} />} label={label.label} />
+                        <FormControlLabel key={label.label} control={<Checkbox name="{label.name}" checked={labelLabels.includes(label.label)} onChange={() => { handleLabel(label.label); }} />} label={label.label} />
                       )}
                     </FormGroup>
                   </Grid>
                   <Grid item xs={12}>
                     <div>
-                      <Button variant="outlined" onClick={(e) => { console.log(model + '-' + algorithms) }}> Submit </Button>
+                      <Button type="submit" variant="outlined" > Submit </Button>
+                      <Alert severity="error" >
+                        model= {model} -
+                        algorithms= {algorithms} -
+                        features= {featureLabels} -
+                        label= {labelLabels}
+
+                      </Alert>
+
+
                     </div>
                   </Grid>
                 </Grid>
