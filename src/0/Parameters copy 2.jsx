@@ -16,14 +16,20 @@ const api = axios.create({
 
 const useStyles = makeStyles((theme) => ({
   projectListContainer: {
-    /*
     backgroundColor: theme.palette.common.white,
     paddingTop: "20px",
     margin: "20px",
-    */
   }
 }));
 
+/*
+const initialValues = {
+  model: 'supervised',
+  features: [],
+  label: [],
+  algorithms: []
+}
+*/
 
 
 
@@ -37,6 +43,25 @@ const Parameters = props => {
   const classes = useStyles();
   //const history = useHistory();
 
+  /*
+  const featureNames =
+    [
+      { label: "Age", name: "age" },
+      { label: "Gender", name: "gender" },
+      { label: "Test1", name: "test1" },
+      { label: "Test2", name: "test2" },
+      { label: "Test3", name: "test3" },
+      { label: "Diagnose", name: "diagnose" }
+    ];
+*/
+
+  //const [project, setProject] = useState(mockProjectListData[projectId]);
+  //const [model, setModel] = useState(mockProjectListData[projectId].model);
+  //const [algorithms, setAlgorithms] = useState(mockProjectListData[projectId].algorithms);
+  //const [featuresLabelsList, setFeaturesLabelsList] = useState(getFeaturesLabelList);
+  //const [featureLabels, setFeatures] = useState(getInitialFeatureLabels);
+  //const [labelLabels, setLabels] = useState(getInitialLabelLabels);
+
   const [project, setProject] = useState(blankProjectData);
   const [model, setModel] = useState([]);
   const [algorithms, setAlgorithms] = useState([]);
@@ -44,6 +69,7 @@ const Parameters = props => {
   const [featureLabels, setFeatures] = useState([]);
   const [labelLabels, setLabels] = useState([]);
   const [algorithmListData, setAlgorithmListData] = useState([]);
+
 
 
   useEffect(() => {
@@ -87,26 +113,38 @@ const Parameters = props => {
       })
     }
 
-    const getLabelLabels = () => {
-      let ll = []
-      project.label.map((label) => (
-        ll.push(label)
-      ))
-      console.log('!!! useEffect ll=' + ll);
-      setLabels(ll);
-    }
-
 
     const getFeatureLabels = () => {
-      let fl = [];
-      project.features.map((label) => (
-        fl.push(label)
-      ))
-      console.log('!!! useEffect fl=' + fl);
-      setFeatures(fl);
+      let initialFeatureLabels = []
+      console.log("!!! useEffect featuresLabelsList=", featuresLabelsList)
+      console.log("!!! useEffect localProject=", localProject)
+      console.log("!!! useEffect localFeaturesLabelsList=", localFeaturesLabelsList)
+      localFeaturesLabelsList.map((feature) => (
+        //project[projectId].features.map((projectFeature) => (
+        localProject.features.map((projectFeature) => (
+          feature.name === projectFeature ? initialFeatureLabels.push(feature.label) : console.log('not')
+        ))))
+      console.log('!!! useEffect initialFeatureLabels=' + initialFeatureLabels);
+      setFeatures(initialFeatureLabels);
     }
 
-  }, [project.id]);
+    const getLabelLabels = () => {
+      let initialLabelLabels = []
+      console.log("!!! useEffect featuresLabelsList=", featuresLabelsList)
+      console.log("!!! useEffect localProject=", localProject)
+      console.log("!!! useEffect localFeaturesLabelsList=", localFeaturesLabelsList)
+      localFeaturesLabelsList.map((feature) => (
+        //project[projectId].label.map((projectLabel) => (
+        localProject.label.map((projectLabel) => (
+          feature.name === projectLabel ? initialLabelLabels.push(feature.label) : console.log('not')
+        ))))
+      console.log('!!! useEffect initialLabelLabels=' + initialLabelLabels);
+      setLabels(initialLabelLabels);
+    }
+
+  }, []);
+
+
 
 
   const handleFeature = featureLabel => {
@@ -144,23 +182,30 @@ const Parameters = props => {
 
 
   const sendChanges = async () => {
+    let p = getProject();
 
     try {
-      let res = await api.put('/projects', { id: projectId, model: model, algorithms: algorithms, features: featureLabels, label: labelLabels })
+      const fd = new FormData();
+      fd.append('id', projectId);
+      fd.append('name', p["name"]);
+      fd.append('created_date', p["created_date"]);
+      fd.append('description', p["description"]);
+      fd.append('data_file', p["data_file"]);
+      fd.append('created_by', p["created_by"]);
+      fd.append('model', model);
+      fd.append('algorithms', algorithms);
+      fd.append('features', featureLabels);
+      fd.append('label', labelLabels);
+      fd.append('accuracy', p["accuracy"]);
 
-      /*
-      const fd = new FormData();     
-      fd.append('project', { model: model, algorithms: algorithms, features: featureLabels, label: labelLabels });
-      console.log(fd)
       axios({
-        //url: 'http://apiserver:8000/projects/project_id=' + projectId,
-        url: 'http://apiserver:8000/projects',
+        url: 'http://apiserver:8000/projects/project_id=' + projectId,
+        //url: 'http://apiserver:8000/projects/',
         method: "PUT",
         data: fd
       }).then(res => {
         console.log(res);
       })
-      */
     } catch (err) {
       console.log(err)
     }
@@ -240,7 +285,7 @@ const Parameters = props => {
                 </Grid>
                 <Grid item xs={12}>
                   <div>
-                    <Button type="submit" variant="outlined" onClick={sendChanges}> Submit </Button>
+                    <Button type="submit" variant="outlined" onClick="sendChanges"> Submit </Button>
                     <Alert severity="error" >
                       model= {model} -
                       algorithms= {algorithms} -

@@ -19,28 +19,20 @@ const api = axios.create({
 
 const useStyles = makeStyles((theme) => ({
   projectListContainer: {
-    /*
     backgroundColor: theme.palette.common.white,
     paddingTop: "20px",
     margin: "20px",
-    */
   },
   pageContent: {
-    /*
     margin: theme.spacing(5),
     padding: theme.spacing(3)
-    */
   },
   searchInput: {
-    /*
     width: '75%'
-    */
   },
   newButton: {
-    /*
     position: 'absolute',
-    right: '100px'
-    */
+    right: '10px'
   }
 }));
 
@@ -51,20 +43,22 @@ const handleCreateProject = () => {
 }
 
 
-const ProjectList = (props) => {
+const ProjectList = () => {
   const classes = useStyles();
   const history = useHistory();
 
+  //const [projectListData, setProjectListData] = useState(mockProjectListData);
   const [projectListData, setProjectListData] = useState([]);
   const [openCreateProject, setOpenCreateProject] = useState(false)
 
-  useEffect(() => {
-    api.get('/projects').then(function (response) {
-      const { data } = response;
-      setProjectListData(data);
-    })
-  }, []);
 
+  const getProjectsFromServer = async () => {
+    let data = await api.get('/projects').then(({ data }) => data);
+    console.log('getProjectsFromServer');
+    console.log(data);
+    setProjectListData(data);
+    return data;
+  }
 
 
   const handleCreateProject = (open) => {
@@ -82,7 +76,7 @@ const ProjectList = (props) => {
         <TableCell align="right">{created_by}</TableCell>
         <TableCell align="right">{created_date}</TableCell>
         <TableCell align="right">{description}</TableCell>
-        <TableCell align="right"><Button variant="contained" onClick={() => history.push('/project/set_data_file/' + id)}>View Project</Button></TableCell>
+        <TableCell align="right"><Button variant="contained" onClick={() => history.push('/' + { projectId }.projectId)}>View Project</Button></TableCell>
       </TableRow>
     );
   };

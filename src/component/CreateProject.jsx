@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core';
 import { DialogTitle, DialogContent, Dialog, Typography, TextField } from '@mui/material';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@mui/material/Button';
+import axios from "axios";
 
 const style = {
   width: 400,
@@ -33,6 +34,11 @@ const initialValues = {
   dataFile: ''
 }
 
+const api = axios.create({
+  baseURL: 'http://apiserver:8000/'
+})
+
+
 const CreateProject = props => {
   const { title, children, openCreateProject, setOpenCreateProject } = props;
   const classes = useStyles();
@@ -50,10 +56,16 @@ const CreateProject = props => {
 
   { console.log(props); }
 
-  const handleSubmit = e => {
-    console.log('handleSubmit = ' + e)
-    // addOrEdit(values, resetForm);
+  const createProject = async () => {
+    console.log('createProject')
+    try {
+      let res = await api.post('/projects', { name: values.name, description: values.description, created_by: "nevil" })
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
   }
+
 
   return (
     <Dialog open={openCreateProject} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
@@ -67,13 +79,10 @@ const CreateProject = props => {
       </DialogTitle>
       <DialogContent dividers>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={createProject}>
           <Grid container>
             <Grid item xs={12}>
               <TextField variant="outlined" label="Name" name="name" value={values.name} onChange={handleInputChange} />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField variant="outlined" label="Data File" name="dataFile" value={values.dataFile} onChange={handleInputChange} />
             </Grid>
             <Grid item xs={12}>
               <TextField variant="outlined" label="Description" name="description" value={values.description} onChange={handleInputChange} />

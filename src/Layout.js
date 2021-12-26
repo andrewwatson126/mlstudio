@@ -14,20 +14,30 @@ const drawerWidth = 240
 
 const useStyles = makeStyles({
   page: {
+    /*
     background: '#f9f9f9',
     width: '100%',
+    */
   },
   root: {
+    /*
     display: 'flex',
+    */
   },
   drawer: {
+    /*
     width: drawerWidth,
+    */
   },
   drawerPaper: {
+    /*
     width: drawerWidth,
+    */
   },
   active: {
+    /*
     background: '#888888'
+    */
   },
 })
 
@@ -40,11 +50,12 @@ export default function Layout({ children }) {
     { name: "Project List", icon: <SubjectOutlined color="primary" />, path: '/' },
   ];
   const projectItems = [
-    { name: "Set Parameters",   icon: <SubjectOutlined color="primary" />, path: '/parameters/1' },
-    { name: "View Correlation", icon: <SubjectOutlined color="primary" />, path: '/1' },
-    { name: "View Model",       icon: <SubjectOutlined color="primary" />, path: '/1' },
-    { name: "Predict",          icon: <SubjectOutlined color="primary" />, path: '/1' },
-    { name: "View Data",        icon: <SubjectOutlined color="primary" />, path: '/' }
+    { name: "Set Data File",   icon: <SubjectOutlined color="primary" />, path: '/project/set_data_file/1' },
+    { name: "Set Parameters",   icon: <SubjectOutlined color="primary" />, path: '/project/set_parameters/1' },
+    { name: "View Correlation", icon: <SubjectOutlined color="primary" />, path: '/project/view_correlation/1' },
+    { name: "View Model",       icon: <SubjectOutlined color="primary" />, path: '/project/view_model/1' },
+    { name: "Predict",          icon: <SubjectOutlined color="primary" />, path: '/project/predict/1' },
+    { name: "View Data",        icon: <SubjectOutlined color="primary" />, path: '/project/view_data_file/1' }
   ];
 
   const buildListItems = (item) => {
