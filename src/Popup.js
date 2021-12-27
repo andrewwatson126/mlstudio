@@ -30,9 +30,7 @@ export default function Popup(props) {
                     <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
                         {title}
                     </Typography>
-                    <Button
-                        color="secondary"
-                        onClick={()=>{setOpenPopup(false)}}>
+                    <Button variant="outlined" color="primary" onClick={()=>{setOpenPopup(false)}}>
                         <CloseIcon />
                     </Button>
                 </div>

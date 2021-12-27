@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import ProjectList from "./pages/ProjectList";
 import Project from "./pages/Project";
 import DataFile from "./pages/DataFile";
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+//import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { purple } from '@material-ui/core/colors';
 import Layout from './Layout';
 import Parameters from './pages/Parameters';
@@ -11,13 +12,24 @@ import ViewModel from './pages/ViewModel';
 import Predict from './pages/Predict';
 import ViewCorrelation from './pages/ViewCorrelation';
 
-const theme = createMuiTheme({
+//const theme = createMuiTheme({
+const theme = createTheme({
+
   palette: {
+    /*
     primary: {
       main: '#fefe00'
     },
     secondary: purple
+    */
   },
+  typography: {
+    fontFamily: 'Segoe UI',
+    fontWeightLight: 400,
+    fontWeightRegular: 500,
+    fontWeightMedium: 600,
+    fontWeightBold: 700,
+  }
 }
 )
 

@@ -5,10 +5,12 @@ import Stack from '@mui/material/Stack';
 
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import CreateProject from "../component/CreateProject";
+import CreateProject from "../components/CreateProject";
 import mockProjectListData from "../data/mockProjectListData";
 import { useHistory, useLocation } from 'react-router-dom'
 import { MediaBluetoothOnSharp } from "@mui/icons-material";
+import ProjectHeader from "../components/ProjectHeader";
+import blankProjectData from "../data/blankProjectData";
 
 
 
@@ -19,11 +21,9 @@ const api = axios.create({
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    backgroundColor: "#ff0",
-    color: "#f0f",
     paddingTop: "20px",
     margin: "20px",
-    height: "200px"
+    height: "100%"
   },
 }));
 
@@ -37,6 +37,7 @@ const DataFile = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
+  const [project, setProject] = useState(blankProjectData);
   const [dataFile, setDataFile] = useState([]);
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const DataFile = (props) => {
       const { data } = response;
       console.log("useEffect data=", data);
       console.log("useEffect data_file=", data.data_file);
+      setProject(data);
       setDataFile(data.data_file);
     })
   }, []);
@@ -61,11 +63,11 @@ const DataFile = (props) => {
     console.log("4-", projectId)
     try {
       const fd = new FormData();
-      fd.append('project_id', projectId);
+      //fd.append('project_id', projectId);
       fd.append('file', dataFile);
 
       axios({
-        url: 'http://apiserver:8000/projects/uploadfile/',
+        url: 'http://apiserver:8000/projects/uploadfile?project_id='+ projectId,
         method: "POST",
         headers: { 'Content-Type': 'multipart/form-data' },
         data: fd
@@ -85,16 +87,14 @@ const DataFile = (props) => {
       </AppBar>
 
       <Grid container spacing={9} >
-        <Grid item xs={false}></Grid>
+        <ProjectHeader project={project} />
+
         <Grid item xs={12}>
-          {console.log("4-", dataFile)}
           <Paper className={classes.pageContent}>
             <input type="file" onChange={handleDataFileChange} />
-
-            <Button variant="outlined" onClick={uplodaDataFile} >
+            <Button variant="contained" color="primary" onClick={uplodaDataFile} >
               Upload
             </Button>
-
           </Paper>
         </Grid>
         <Grid item xs={false}></Grid>

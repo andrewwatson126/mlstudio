@@ -3,7 +3,7 @@ import { Grid, Typography, CircularProgress, Toolbar, AppBar, TextField, Table, 
 import Button from '@mui/material/Button';
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import CreateProject from "../component/CreateProject";
+import CreateProject from "../components/CreateProject";
 import mockProjectListData from "../data/mockProjectListData";
 import { useHistory, useLocation } from 'react-router-dom'
 
@@ -125,7 +125,7 @@ const ProjectList = (props) => {
               </Table>
             </TableContainer>
 
-            <Button variant="contained" onClick={() => { handleCreateProject(true); }} >Create Project</Button>
+            <Button variant="contained" color="primary" onClick={() => { handleCreateProject(true); }} >Create Project</Button>
 
 
           </Paper>

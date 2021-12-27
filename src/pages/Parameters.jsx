@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Checkbox, Divider, FormHelperText, Select, MenuItem, Radio, FormControlLabel, FormLabel, FormGroup, FormControl, RadioGroup, Container, Paper } from "@material-ui/core";
+import { AppBar, Toolbar, Grid, Typography, Checkbox, Divider, FormHelperText, Select, MenuItem, Radio, FormControlLabel, FormLabel, FormGroup, FormControl, RadioGroup, Container, Paper } from "@material-ui/core";
 import Button from '@mui/material/Button';
 import { makeStyles } from "@material-ui/core/styles";
 import mockProjectListData from "../data/mockProjectListData";
 import blankProjectData from "../data/blankProjectData";
 import algorithmListData from "../data/algorithmListData";
-//import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import Alert from '@mui/material/Alert';
 import axios from "axios";
+import { height } from "@mui/system";
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -15,16 +16,12 @@ const api = axios.create({
 
 
 const useStyles = makeStyles((theme) => ({
-  projectListContainer: {
-    /*
-    backgroundColor: theme.palette.common.white,
+  pageContent: {
     paddingTop: "20px",
     margin: "20px",
-    */
-  }
+    height: "100%"
+  },
 }));
-
-
 
 
 const Parameters = props => {
@@ -35,7 +32,7 @@ const Parameters = props => {
   const { projectId } = params
 
   const classes = useStyles();
-  //const history = useHistory();
+  const history = useHistory();
 
   const [project, setProject] = useState(blankProjectData);
   const [model, setModel] = useState([]);
@@ -47,9 +44,6 @@ const Parameters = props => {
 
 
   useEffect(() => {
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! useEffect !!!!!!!!!!!!!!!!!!!!!");
-
-
     let projectId = 1;
     let localFeaturesLabelsList = [];
     let localProject = blankProjectData;
@@ -147,58 +141,46 @@ const Parameters = props => {
 
     try {
       let res = await api.put('/projects', { id: projectId, model: model, algorithms: algorithms, features: featureLabels, label: labelLabels })
-
-      /*
-      const fd = new FormData();     
-      fd.append('project', { model: model, algorithms: algorithms, features: featureLabels, label: labelLabels });
-      console.log(fd)
-      axios({
-        //url: 'http://apiserver:8000/projects/project_id=' + projectId,
-        url: 'http://apiserver:8000/projects',
-        method: "PUT",
-        data: fd
-      }).then(res => {
-        console.log(res);
-      })
-      */
     } catch (err) {
       console.log(err)
     }
   }
 
 
-
   return (
     <>
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', height: 240, }} >
-              <div>Project Header for project is '${projectId}' </div>
-              {console.log("project=", project)}
-              {console.log("project.name=", project.name)}
-              <div>Name: {project.name} </div>
-              <div>Created By: {project.created_by} </div>
-              <div>Created Date: {project.created_date}</div>
-              <div>Description: {project.description} </div>
-              <div>Data File: {project.data_file} </div>
+      <AppBar position="static">
+        <Toolbar />
+      </AppBar>
+
+      <Grid container spacing={9} >
+        <Grid item xs={12}>
+          <Grid item xs={4} >
+            <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
+              <Typography variant="h4" gutterBottom> Project Header </Typography>
+              <Typography variant="body1" gutterBottom>
+                <div>Project Header for project is {projectId}</div>
+                <div>Name: {project.name} </div>
+                <div>Created By: {project.created_by} </div>
+                <div>Created Date: {project.created_date}</div>
+                <div>Description: {project.description} </div>
+                <div>Data File: {project.data_file} </div>
+                <div>Model : {project.model} </div>
+                <div>Algorithm: {project.algorithms.map((algorithm) => <span>{algorithm} </span>)}</div>
+                <div>Features: {project.features.map((feature) => <span>{feature} </span>)}</div>
+                <div>Label: {project.label.map((label) => <span>{label} </span>)}</div>
+              </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', height: 240, }} >
-              <div>Model : {project.model} </div>
-              <div>Algorithm: {project.algorithms.map((algorithm) => <div>{algorithm} </div>)}</div>
-              <div> Features: {project.features.map((feature) => <div>{feature} </div>)}</div>
-              <div> Label: {project.label.map((label) => <div>{label} </div>)}</div>
-              <br />
-
+          <Grid item xs={12} >
+            <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
+            <Typography variant="h4" gutterBottom> Set Project Parameters </Typography>
+            <Typography variant="body1" gutterBottom>
               <Grid container>
                 <Grid item xs={12}>
                   { /* Model */}
                   <FormControl>
                     <FormLabel>Model</FormLabel>
-                    {console.log("project=", project)}
-                    {console.log("model=", model)}
                     <RadioGroup row label="model" name="model" value={model} onChange={(e) => { setModel(e.target.value); }}>
                       <FormControlLabel key="supervised" value="supervised" control={<Radio />} label="supervised" />
                       <FormControlLabel key="unsupervised" value="unsupervised" control={<Radio />} label="unsupervised" />
@@ -240,7 +222,7 @@ const Parameters = props => {
                 </Grid>
                 <Grid item xs={12}>
                   <div>
-                    <Button type="submit" variant="outlined" onClick={sendChanges}> Submit </Button>
+                    <Button type="submit" variant="contained" color="primary" onClick={sendChanges}> Submit </Button>
                     <Alert severity="error" >
                       model= {model} -
                       algorithms= {algorithms} -
@@ -253,10 +235,11 @@ const Parameters = props => {
                   </div>
                 </Grid>
               </Grid >
-            </Paper >
-          </Grid >
+            </Typography>
+          </Paper >
         </Grid >
-      </Container >
+      </Grid >
+    </Grid >
     </>
   );
 };
