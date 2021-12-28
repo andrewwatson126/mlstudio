@@ -4,7 +4,10 @@ import { Link, Button } from "@material-ui/core";
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Divider, FormHelperText, Select, MenuItem, Radio, FormControlLabel, FormLabel, FormGroup, FormControl, RadioGroup, Typography, CircularProgress, Toolbar, AppBar, TextField, Container, Paper } from "@material-ui/core";
 import mockProjectListData from "../data/mockProjectListData";
 import axios from "axios";
+/* 
 import { makeStyles } from "@material-ui/core/styles";
+*/
+import { makeStyles } from '@mui/styles';
 import ProjectHeader from '../components/ProjectHeader';
 
 const api = axios.create({
@@ -34,8 +37,6 @@ const Predict = props => {
 
 
   useEffect(() => {
-    let projectId = 1;
-
     api.get('/projects/' + projectId).then(function (response) {
       const { data } = response;
       setProject(data);
@@ -80,15 +81,17 @@ const Predict = props => {
 
   const displayFeature = (feature) => {
     return (
-      <TextField
-        required
-        id={feature}
-        label={feature}
-        name={feature}
-        defaultValue=""
-        variant="standard"
-        onChange={inputChangedHandler}
-      />
+      <Grid item xs={12} >
+        <TextField
+          required
+          id={feature}
+          label={feature}
+          name={feature}
+          defaultValue=""
+          variant="standard"
+          onChange={inputChangedHandler}
+        />
+      </Grid>
     );
   }
 
@@ -107,24 +110,33 @@ const Predict = props => {
         <Toolbar />
       </AppBar>
 
-      <Grid container spacing={9} >
+      <Grid container spacing={4} >
         <ProjectHeader project={project} />
 
-        <Grid item xs={12} >
-          <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
+        <Grid item xs={12}  >
+          <Paper className={classes.pageContent} sx={{ p: 10,  display: 'flex', flexDirection: 'column' }} >
             <Typography variant="h4" gutterBottom> Predict </Typography>
             <Typography variant="body1" gutterBottom>
 
-              {project ? (
-                features.map(feature => displayFeature(feature))
-              ) : (<CircularProgress />)
-              }
+              <Grid container spacing={1} >
+                {project ? (
+                  features.map(feature => displayFeature(feature))
+                ) : (<CircularProgress />)
+                }
 
-              <Button variant="contained" color="primary" onClick={predictHandler} >
-                Predict
-              </Button>
+                <Grid item xs={12} >
+                  <Button variant="contained" color="primary" onClick={predictHandler} >
+                    Predict
+                  </Button>
+                </Grid>
+
+              </Grid>
+
             </Typography>
           </Paper>
+        </Grid>
+
+        <Grid item xs={12} >
 
           <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
             <Typography variant="h4" gutterBottom> Prediction Results </Typography>

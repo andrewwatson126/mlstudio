@@ -3,7 +3,10 @@ import { Grid, Typography, CircularProgress, Toolbar, AppBar, TextField, Table, 
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
+/* 
 import { makeStyles } from "@material-ui/core/styles";
+*/
+import { makeStyles } from '@mui/styles';
 import axios from "axios";
 import CreateProject from "../components/CreateProject";
 import mockProjectListData from "../data/mockProjectListData";

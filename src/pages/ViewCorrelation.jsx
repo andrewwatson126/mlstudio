@@ -1,36 +1,49 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import { Link, Button } from "@material-ui/core";
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, CircularProgress, Toolbar, AppBar, TextField, Container, Paper } from "@material-ui/core";
+import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, CircularProgress, Toolbar, AppBar, TextField, Container, Paper } from "@material-ui/core";
 import mockProjectListData from "../data/mockProjectListData";
 import axios from "axios";
+import Buffer from "Buffer";
 import blankProjectData from "../data/blankProjectData";
+import ProjectHeader from '../components/ProjectHeader';
+/* 
+import { makeStyles } from "@material-ui/core/styles";
+*/
+import { makeStyles } from '@mui/styles';
 
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
 })
 
+const useStyles = makeStyles((theme) => ({
+  pageContent: {
+    paddingTop: "20px",
+    margin: "20px",
+    height: "100%"
+  },
+}));
 
 const ViewCorrelation = props => {
   const { match } = props
   const { params } = match
   const { projectId } = params
 
+  const classes = useStyles();
 
   const [project, setProject] = useState(blankProjectData);
-  const [correlation, setCorrelation] = useState();
+  //const [correlation, setCorrelation] = useState("data:image/png;base64, " + "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==");
+  const [correlation, setCorrelation] = useState("waiting");
 
   useEffect(() => {
-
-    let projectId = 1;
-
+    console.log("ViewCorrelation useEffect stated")
     api.get('/projects/' + projectId).then(function (response) {
       const { data } = response;
       console.log("!!! useEffect  project=", data);
+      console.log("ViewCorrelation useEffect project=", data)
       setProject(data);
     });
-
 
     axios({
       method: 'get',
@@ -46,19 +59,22 @@ const ViewCorrelation = props => {
         //console.log("myarray=", myarray)
         //const base64 = btoa(uint8ToString(myarray));
         //const base64 = await convertBlobtoBase64(res.data)
-        const d = toBinary(res.data.arrayBuffer)
-        console.log("d=", d);
-        const base64 = btoa(d)
+        //const d = toBinary(res.data.arrayBuffer)
+        //console.log("d=", d);
+        //const base64 = btoa(d)
         //const base64 = btoa(res.data.Uint8Array)
-        console.log("res.data.arrayBuffer=", res.data.arrayBuffer);
-        console.log("res.data=", res.data);
+        //var base64x = btoa(uint8ToString(res.data));
+        //var base64 = Buffer.from(uint8ToString(res.data, 'base64'));
+        //const reader = new FileReader();
+        const base64 = res.data;
+        
         console.log("base64=", base64);
-        setCorrelation("data:image/png;base64," + " " + base64);
-        //setCorrelation("data:image/png;base64," + " " + "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==")
+        setCorrelation("data:image/png;base64, " + base64);
+        //setCorrelation("data:image/png;base64, " + "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==")
       })
 
 
-  }, [project.id]);
+  }, []);
 
   function toBinary(string) {
     const codeUnits = new Uint16Array(string.length);
@@ -72,6 +88,8 @@ const ViewCorrelation = props => {
     }
     return result;
   }
+
+ 
 
   const uint8ToString = (buf) => {
     var i, length, out = '';
@@ -112,28 +130,18 @@ const ViewCorrelation = props => {
       </AppBar>
 
       <Grid container spacing={9} >
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', height: 240, }} >
-              <div>Project Header for project is '${projectId}' </div>
-              <div>Name: {project.name} </div>
-              <div>Created By: {project.createdBy} </div>
-              <div>Created Date: {project.createdDate}</div>
-              <div>Description: {project.description} </div>
-              <div>Data File: {project.dataFile} </div>
-              <div>Model : {project.model} </div>
-              <div>Algorithm: {project.algorithms.map((algorithm) => <div>{algorithm} </div>)}</div>
-              <div> Features: {project.features.map((feature) => <div>{feature} </div>)}</div>
-              <div> Label: {project.label.map((label) => <div>{label} </div>)}</div>
-              <br />
+        <ProjectHeader project={project} />
 
-              CORRELATION
-
+        <Grid item xs={12}>
+          <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
+            <Typography variant="h4" gutterBottom> Feature Correlation </Typography>
+            <Typography variant="body1" gutterBottom>
               {console.log("correlation=", correlation)}
               <img src={correlation} />
-
-            </Paper>
-          </Grid>
+            </Typography>
+          </Paper>
         </Grid>
+      </Grid>
     </>
   );
 };

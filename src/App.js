@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import ProjectList from "./pages/ProjectList";
 import Project from "./pages/Project";
@@ -11,6 +11,7 @@ import Parameters from './pages/Parameters';
 import ViewModel from './pages/ViewModel';
 import Predict from './pages/Predict';
 import ViewCorrelation from './pages/ViewCorrelation';
+import ViewData from './pages/ViewData';
 
 //const theme = createMuiTheme({
 const theme = createTheme({
@@ -33,23 +34,39 @@ const theme = createTheme({
 }
 )
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-  <Router>
-    <Layout>
-      <Switch>
-        <Route exact path="/" render={(props) => <ProjectList {...props} />} />          
-        <Route exact path="/:projectId" render={(props) => <Project {...props} />} />
-        <Route exact path="/project/set_data_file/:projectId" render={(props) => <DataFile {...props} />} />
-        <Route exact path="/project/set_parameters/:projectId" render={(props) => <Parameters {...props} />} />
-        <Route exact path="/project/view_correlation/:projectId" render={(props) => <ViewCorrelation {...props} />} />
-        <Route exact path="/project/view_model/:projectId" render={(props) => <ViewModel {...props} />} />
-        <Route exact path="/project/predict/:projectId" render={(props) => <Predict {...props} />} />
-        <Route exact path="/project/view_data_file/:projectId" render={(props) => <Project {...props} />} />
-      </Switch>
-    </Layout>
-  </Router>
-</ThemeProvider>
-);
+
+
+const App = (props) => {
+
+
+  const [projectId, setProjectId] = useState();
+
+  return (
+    <>
+
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Layout projectId={projectId}>
+            <Switch>
+            {console.log('App=', props, "<----------------------------------------------------")}
+            {console.log('App=', typeof(props), "<----------------------------------------------------")}
+            {console.log('App= projectId=', projectId, "<----------------------------------------------------")}
+
+              <Route exact path="/" render={(props) => <ProjectList {...props} setProjectId={setProjectId} />} />
+              <Route exact path="/:projectId" render={(props) => <Project {...props} />} />
+              <Route exact path="/project/set_data_file/:projectId" render={(props) => <DataFile {...props} />} />
+              <Route exact path="/project/set_parameters/:projectId" render={(props) => <Parameters {...props} />} />
+              <Route exact path="/project/view_correlation/:projectId" render={(props) => <ViewCorrelation {...props} />} />
+              <Route exact path="/project/view_model/:projectId" render={(props) => <ViewModel {...props} />} />
+              <Route exact path="/project/predict/:projectId" render={(props) => <Predict {...props} />} />
+              <Route exact path="/project/view_data_file/:projectId" render={(props) => <ViewData {...props} />} />
+            </Switch>
+          </Layout>
+        </Router>
+      </ThemeProvider>
+    </>
+  );
+};
+
 
 export default App;

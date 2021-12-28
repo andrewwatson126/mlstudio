@@ -33,7 +33,15 @@ const useStyles = makeStyles({
   },
 })
 
-export default function Layout({ children }) {
+// export default function Layout( { children })  {
+//export default function Layout() {
+const Layout = props => {
+  const { match } = props
+  const { projectId } = props
+  const { children } = props
+
+  console.log('***************************************Layout projectId=', projectId)
+
   const classes = useStyles()
   const history = useHistory()
   const location = useLocation()
@@ -42,12 +50,12 @@ export default function Layout({ children }) {
     { name: "Project List", icon: <SubjectOutlined color="primary" />, path: '/' },
   ];
   const projectItems = [
-    { name: "Set Data File",   icon: <SubjectOutlined color="primary" />, path: '/project/set_data_file/1' },
-    { name: "Set Parameters",   icon: <SubjectOutlined color="primary" />, path: '/project/set_parameters/1' },
-    { name: "View Correlation", icon: <SubjectOutlined color="primary" />, path: '/project/view_correlation/1' },
-    { name: "View Model",       icon: <SubjectOutlined color="primary" />, path: '/project/view_model/1' },
-    { name: "Predict",          icon: <SubjectOutlined color="primary" />, path: '/project/predict/1' },
-    { name: "View Data",        icon: <SubjectOutlined color="primary" />, path: '/project/view_data_file/1' }
+    { name: "Set Data File", icon: <SubjectOutlined color="primary" />, path: '/project/set_data_file/' + projectId },
+    { name: "Set Parameters", icon: <SubjectOutlined color="primary" />, path: '/project/set_parameters/'+ projectId },
+    { name: "View Correlation", icon: <SubjectOutlined color="primary" />, path: '/project/view_correlation/' + projectId},
+    { name: "View Model", icon: <SubjectOutlined color="primary" />, path: '/project/view_model/'+ projectId },
+    { name: "Predict", icon: <SubjectOutlined color="primary" />, path: '/project/predict/' + projectId},
+    { name: "View Data", icon: <SubjectOutlined color="primary" />, path: '/project/view_data_file/'+ projectId }
   ];
 
   const buildListItems = (item) => {
@@ -59,7 +67,7 @@ export default function Layout({ children }) {
           {icon}
         </ListItemIcon>
         <ListItemText primary={name} />
-    </ListItem>
+      </ListItem>
     );
   };
 
@@ -83,19 +91,21 @@ export default function Layout({ children }) {
 
         {/* links/list section */}
         <List>
-        { mainItems.map((item) => ( buildListItems(item))) }
+          {mainItems.map((item) => (buildListItems(item)))}
         </List>
         <Divider />
         <List>
-        { projectItems.map((item) => ( buildListItems(item))) }
+          {projectItems.map((item) => (buildListItems(item)))}
         </List>
-        
+
       </Drawer>
 
       {/* main content */}
       <div className={classes.page}>
-        { children }
+        {children}
       </div>
     </div>
-  )
-}
+  );
+};
+
+export default Layout;
