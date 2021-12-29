@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "20px",
     height: "100%"
   },
+  form: {
+    width: '90%',
+    // margin: theme.spacing(1)
+  }
 }));
 
 
@@ -61,11 +65,21 @@ const Predict = props => {
     try {
       let d1 = []
       let d2 = []
+      //values.map((value => d2.push(value)))
+      Object.keys(values).map(name => d2.push(values[name]))
+      d1.push(d2)
+
+      console.log('d2=', d2)
+      console.log('d1=', d1)
+      /*
+      let d1 = []
+      let d2 = []
       d1.push(d2)
       d2.push(1)
       d2.push(2)
       d2.push(3)
       d2.push(4)
+      */
       let res = await api.post('/projects/predict?project_id=' + projectId, d1);
       console.log('predict res=', res);
       const { data } = res;
@@ -81,16 +95,15 @@ const Predict = props => {
 
   const displayFeature = (feature) => {
     return (
-      <Grid item xs={12} >
-        <TextField
+      <Grid item xs={4} >
+        <TextField 
           required
-          id={feature}
-          label={feature}
-          name={feature}
-          defaultValue=""
-          variant="standard"
-          onChange={inputChangedHandler}
-        />
+          id={feature} 
+          label={feature} 
+          name={feature} 
+          variant="outlined" 
+          onChange={inputChangedHandler} 
+          className={classes.form} />
       </Grid>
     );
   }
