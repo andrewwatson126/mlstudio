@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from '@material-ui/core';
-import { DialogTitle, DialogContent, Dialog, Typography, TextField } from '@mui/material';
-import CloseIcon from '@material-ui/icons/Close';
+import { Grid, DialogTitle, DialogContent, Dialog, Typography, TextField } from '@material-ui/core/';
+import { Toolbar, Checkbox, Divider, FormHelperText, Select, MenuItem, Radio, FormControlLabel, FormLabel, FormGroup, FormControl, RadioGroup, Container, Paper } from "@material-ui/core";
 import Button from '@mui/material/Button';
+import CloseIcon from '@material-ui/icons/Close';
 import axios from "axios";
+import Alert from '@mui/material/Alert';
 
 const style = {
   width: 400,
@@ -23,16 +24,12 @@ const useStyles = makeStyles(theme => ({
   },
   dialogTitle: {
     paddingRight: '0px'
+  },
+  form: {
+    width: '90%',
+    // margin: theme.spacing(1)
   }
 }))
-
-const initialValues = {
-  name: 'test',
-  createBy: 'nevilgultekin',
-  createDate: new Date(),
-  description: 'desc',
-  dataFile: ''
-}
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -40,32 +37,43 @@ const api = axios.create({
 
 
 const CreateProject = props => {
-  const { title, children, openCreateProject, setOpenCreateProject } = props;
   const classes = useStyles();
-  const [values, setValues] = useState(initialValues);
 
+  const { openCreateProject, setOpenCreateProject } = props;
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [model, setModel] = useState([]);
+  const [shared, setShared] = useState([]);
 
-  const handleInputChange = e => {
-    const { name, value } = e.target
-    setValues({
-      ...values,
-      [name]: value
-    })
-    console.log(values);
-  }
-
-  { console.log(props); }
 
   const createProject = async () => {
     console.log('createProject')
     try {
-      let res = await api.post('/projects', { name: values.name, description: values.description, created_by: "nevil" })
+      let res = await api.post('/projects',
+        {
+          "id": 0,
+          "name": name,
+          "created_date": "2021-12-28T19:45:42.591Z",
+          "description": description,
+          "data_file": "",
+          "created_by": "ng3",
+          "model": "supervised",
+          "algorithms": [],
+          "features": [],
+          "label": [],
+          "accuracy": {}
+        })
+
+
       console.log(res)
+      setOpenCreateProject(false);
     } catch (err) {
+      <Alert severity="error" >
+        <Typography variant="body" component="div"> Create Project failed: {err} </Typography>
+      </Alert>
       console.log(err)
     }
   }
-
 
   return (
     <Dialog open={openCreateProject} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
@@ -79,19 +87,39 @@ const CreateProject = props => {
       </DialogTitle>
       <DialogContent dividers>
 
-        <form onSubmit={createProject}>
-          <Grid container>
-            <Grid item xs={12}>
-              <TextField variant="contained" label="Name" name="name" value={values.name} onChange={handleInputChange} />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField variant="contained" label="Description" name="description" value={values.description} onChange={handleInputChange} />
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" text="Submit" variant="contained" />
-            </Grid>
+        <Grid container spacing={1} >
+          <Grid item xs={12} >
+            <TextField id="name" label="Name" variant="outlined" onChange={(e) => setName(e.target.value)} className={classes.form} />
           </Grid>
-        </form>
+          <Grid item xs={12}>
+            <TextField id="description" label="Description" variant="outlined" multiline rows={5} onChange={(e) => setDescription(e.target.value)} className={classes.form} />
+          </Grid>
+          <Grid item xs={12}>
+            { /* Model */}
+            <FormControl>
+              <FormLabel>Model</FormLabel>
+              <RadioGroup row label="model" name="model" value={model} onChange={(e) => { setModel(e.target.value); }}>
+                <FormControlLabel key="supervised" checked disabled value="supervised" control={<Radio />} label="supervised" />
+                <FormControlLabel key="unsupervised" disabled value="unsupervised" control={<Radio />} label="unsupervised" />
+              </RadioGroup>
+            </FormControl>
+            <FormHelperText>Select model to either predict or categorize</FormHelperText>
+          </Grid >
+          <Grid item xs={12}>
+            { /* Model */}
+            <FormControl>
+              <FormLabel>Shared</FormLabel>
+              <RadioGroup row label="shared" name="Shared" value={shared} onChange={(e) => { setShared(e.target.value); }}>
+                <FormControlLabel key="public" disabled value="public" control={<Radio />} label="public" />
+                <FormControlLabel key="private" checked disabled value="private" control={<Radio />} label="private" />
+              </RadioGroup>
+            </FormControl>
+            <FormHelperText>Select model to either predict or categorize</FormHelperText>
+          </Grid >
+          <Grid item xs={12}>
+            <Button onClick={createProject} variant="contained" >Create</Button>
+          </Grid>
+        </Grid>
 
       </DialogContent>
     </Dialog>

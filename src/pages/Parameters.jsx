@@ -155,14 +155,14 @@ const Parameters = props => {
         <Toolbar />
       </AppBar>
 
-      <Grid container spacing={9} >
+      <Grid container spacing={1} >
         <Grid item xs={12}>
           <ProjectHeader project={project} />
           <Grid item xs={12} >
             <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
               <Typography variant="h4" gutterBottom> Set Project Parameters </Typography>
               <Typography variant="body1" gutterBottom>
-                <Grid container>
+              <Grid container spacing={3} >
                   <Grid item xs={12}>
                     { /* Model */}
                     <FormControl>
@@ -187,7 +187,7 @@ const Parameters = props => {
                     </Select>
                     <FormHelperText>Select one or more algorithms you would like to use</FormHelperText>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
 
                     { /* Features */}
                     <FormLabel>Features</FormLabel>
@@ -196,7 +196,9 @@ const Parameters = props => {
                         <FormControlLabel key={feature.label} control={<Checkbox name="{feature.name}" checked={featureLabels.includes(feature.label)} onChange={() => { handleFeature(feature.label); }} />} label={feature.label} />
                       )}
                     </FormGroup>
+                    </Grid>
 
+                    <Grid item xs={6}>
 
                     { /* Labels */}
                     <FormLabel>Labels</FormLabel>

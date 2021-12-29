@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 import axios from "axios";
 import CreateProject from "../components/CreateProject";
 import mockProjectListData from "../data/mockProjectListData";
+import DeleteIcon from '@mui/icons-material/Delete';
+import PreviewIcon from '@mui/icons-material/Preview';
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -23,13 +25,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-/*
-const handleCreateProject = () => {
-  console.log("handleCreateProject");
-  { <CreateProject open='true' /> }
-}
-*/
-
 const ProjectList = (props) => {
   console.log('ProjectList props=', props)
   const { match } = props
@@ -43,13 +38,16 @@ const ProjectList = (props) => {
 
   const [projectListData, setProjectListData] = useState([]);
   const [openCreateProject, setOpenCreateProject] = useState(false)
+  const [deleteProject, setDeleteProject] = useState(false)
 
   useEffect(() => {
     api.get('/projects').then(function (response) {
       const { data } = response;
       setProjectListData(data);
     })
-  }, [openCreateProject]);
+
+    setDeleteProject(false);
+  }, [openCreateProject, deleteProject]);
 
   const handleCreateProject = (open) => {
     console.log('open=' + open);
@@ -62,6 +60,20 @@ const ProjectList = (props) => {
     history.push('/project/set_data_file/' + id);
   }
 
+  const deleteProjectHandler = (id) => {
+    console.log("viewProjectHandler setProjectId(", id, ")");
+    setProjectId(id);
+
+    api.delete('/projects/' + id)
+      .then(function (response) {
+        const { data } = response;
+        setDeleteProject(true);
+      }).catch(function (error) {
+        console.log(error);
+      });;
+
+  }
+
   const getProjectListRow = (projectId) => {
     console.log(projectListData[{ projectId }.projectId]);
     const { id, name, created_by, created_date, description } = projectListData[{ projectId }.projectId];
@@ -72,7 +84,10 @@ const ProjectList = (props) => {
         <TableCell align="right">{created_by}</TableCell>
         <TableCell align="right">{created_date}</TableCell>
         <TableCell align="right">{description}</TableCell>
-        <TableCell align="right"><Button variant="contained" onClick={() => viewProjectHandler(id)}>View Project</Button></TableCell>
+        <TableCell align="right">
+          <Button variant="contained" onClick={() => viewProjectHandler(id)}><PreviewIcon /></Button>
+          <Button variant="contained" onClick={() => deleteProjectHandler(id)}><DeleteIcon /></Button>
+        </TableCell>
       </TableRow>
     );
   };
