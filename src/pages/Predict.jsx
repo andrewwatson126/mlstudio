@@ -4,11 +4,9 @@ import { Link, Button } from "@material-ui/core";
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Divider, FormHelperText, Select, MenuItem, Radio, FormControlLabel, FormLabel, FormGroup, FormControl, RadioGroup, Typography, CircularProgress, Toolbar, AppBar, TextField, Container, Paper } from "@material-ui/core";
 import mockProjectListData from "../data/mockProjectListData";
 import axios from "axios";
-/* 
-import { makeStyles } from "@material-ui/core/styles";
-*/
 import { makeStyles } from '@mui/styles';
 import ProjectHeader from '../components/ProjectHeader';
+import Notification from "../components/Notification";
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -38,6 +36,7 @@ const Predict = props => {
   const [features, setFeatures] = useState([]);
   const [values, setValues] = useState({});
   const [prediction, setPrediction] = useState({});
+  const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
 
 
   useEffect(() => {
@@ -46,7 +45,16 @@ const Predict = props => {
       setProject(data);
       setFeatures(data.features);
       features.map(feature => values[feature] = "")
-    });
+      }).catch(function (error) {
+        let msg = 'Loading project failed=' + error;
+        setNotify({
+          isOpen: true,
+          message: msg,
+          type: 'error'
+      })
+      console.log(error);
+      })
+
 
   }, [project.id]);
 
@@ -119,9 +127,11 @@ const Predict = props => {
 
   return (
     <>
+    { /*
       <AppBar position="static">
         <Toolbar />
       </AppBar>
+    */ }
 
       <Grid container spacing={4} >
         <ProjectHeader project={project} />
@@ -178,6 +188,9 @@ const Predict = props => {
           </Paper>
         </Grid>
       </Grid>
+
+      <Notification notify={notify} setNotify={setNotify} />
+
     </>
   );
 };

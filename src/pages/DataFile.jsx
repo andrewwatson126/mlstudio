@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Typography, CircularProgress, Toolbar, AppBar, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core";
+import { Box, Grid, IconButton, Typography, CircularProgress, Toolbar, AppBar, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-
-/* 
-import { makeStyles } from "@material-ui/core/styles";
-*/
+import Notification from "../components/Notification";
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
 import CreateProject from "../components/CreateProject";
@@ -14,7 +11,9 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { MediaBluetoothOnSharp } from "@mui/icons-material";
 import ProjectHeader from "../components/ProjectHeader";
 import blankProjectData from "../data/blankProjectData";
-
+import Avatar from '@mui/material/Avatar';
+import sherlock from "../images/sherlock.png";
+import CloseIcon from '@material-ui/icons/Close';
 
 
 const api = axios.create({
@@ -28,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "20px",
     height: "100%"
   },
+  toolbarContent: {
+    width: "100%"
+  }
 }));
 
 
@@ -36,12 +38,12 @@ const DataFile = (props) => {
   const { params } = match
   const { projectId } = params
 
-
   const classes = useStyles();
   const history = useHistory();
 
   const [project, setProject] = useState(blankProjectData);
   const [dataFile, setDataFile] = useState([]);
+  const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
 
   useEffect(() => {
     api.get('/projects/' + projectId).then(function (response) {
@@ -64,34 +66,39 @@ const DataFile = (props) => {
     console.log('uplodaDataFile')
     console.log("3-", dataFile)
     console.log("4-", projectId)
-    try {
-      const fd = new FormData();
-      //fd.append('project_id', projectId);
-      fd.append('file', dataFile);
+    const fd = new FormData();
+    //fd.append('project_id', projectId);
+    fd.append('file', dataFile);
 
-      axios({
-        url: 'http://apiserver:8000/projects/uploadfile?project_id='+ projectId,
-        method: "POST",
-        headers: { 'Content-Type': 'multipart/form-data' },
-        data: fd
-      }).then(res => {
-        console.log(res);
-      })
-    } catch (err) {
-      console.log(err)
-    }
+    axios({
+      url: 'http://apiserver:8000/projects/uploadfile?project_id=' + projectId,
+      method: "POST",
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: fd
+    }).then(res => {
+      console.log(res);
+      setNotify({ isOpen: true, message: 'File upload successfully', type: 'success' })
+    }).catch(function (error) {
+      let msg = 'Project could not be deleted error=' + error;
+      setNotify({ isOpen: true, message: msg, type: 'error' })
+    })
   }
-
 
   return (
     <>
+    { /* 
       <AppBar position="static">
-        <Toolbar />
+        <Toolbar >
+          <div style={{ width: '100%' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} >
+              <Avatar alt="Sherlock" src={sherlock} />
+            </Box>
+          </div>
+        </Toolbar>
       </AppBar>
-
+  */}
       <Grid container spacing={9} >
         <ProjectHeader project={project} />
-
         <Grid item xs={12}>
           <Paper className={classes.pageContent}>
             <input type="file" onChange={handleDataFileChange} />
@@ -103,6 +110,7 @@ const DataFile = (props) => {
         <Grid item xs={false}></Grid>
       </Grid>
 
+      <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 };

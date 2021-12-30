@@ -8,6 +8,7 @@ import { Grid, Typography, CircularProgress, Toolbar, AppBar, Table, TableBody, 
 import Button from '@mui/material/Button';
 import axios from "axios";
 import CreateProject from "../components/CreateProject";
+import Notification from "../components/Notification";
 import mockProjectListData from "../data/mockProjectListData";
 import DeleteIcon from '@mui/icons-material/Delete';
 import PreviewIcon from '@mui/icons-material/Preview';
@@ -39,6 +40,7 @@ const ProjectList = (props) => {
   const [projectListData, setProjectListData] = useState([]);
   const [openCreateProject, setOpenCreateProject] = useState(false)
   const [deleteProject, setDeleteProject] = useState(false)
+  const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
 
   useEffect(() => {
     api.get('/projects').then(function (response) {
@@ -68,9 +70,21 @@ const ProjectList = (props) => {
       .then(function (response) {
         const { data } = response;
         setDeleteProject(true);
+        setNotify({
+          isOpen: true,
+          message: 'Project deleted successfully',
+          type: 'success'
+      })
+
       }).catch(function (error) {
-        console.log(error);
-      });;
+        let msg = 'Project could not be deleted error=' + error;
+        setNotify({
+          isOpen: true,
+          message: msg,
+          type: 'error'
+      })
+      console.log(error);
+      });
 
   }
 
@@ -109,9 +123,11 @@ const ProjectList = (props) => {
 
   return (
     <>
+    { /* 
       <AppBar position="static">
         <Toolbar />
       </AppBar>
+     */ }
 
       <Grid container spacing={4} >
         <Grid item xs={false}></Grid>
@@ -140,6 +156,9 @@ const ProjectList = (props) => {
       </Grid>
 
       <CreateProject openCreateProject={openCreateProject} setOpenCreateProject={setOpenCreateProject} />
+
+      <Notification notify={notify} setNotify={setNotify} />
+
     </>
   );
 };

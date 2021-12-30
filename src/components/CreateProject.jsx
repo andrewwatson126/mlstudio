@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from "axios";
 import Alert from '@mui/material/Alert';
+import Notification from "../components/Notification";
+
 
 const style = {
   width: 400,
@@ -44,6 +46,7 @@ const CreateProject = props => {
   const [description, setDescription] = useState('');
   const [model, setModel] = useState([]);
   const [shared, setShared] = useState([]);
+  const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
 
 
   const createProject = async () => {
@@ -64,14 +67,15 @@ const CreateProject = props => {
           "accuracy": {}
         })
 
-
       console.log(res)
       setOpenCreateProject(false);
     } catch (err) {
-      <Alert severity="error" >
-        <Typography variant="body" component="div"> Create Project failed: {err} </Typography>
-      </Alert>
-      console.log(err)
+      setNotify({
+        isOpen: true,
+        message: 'Project creation failed',
+        type: 'error'
+      });
+      console.log(err);
     }
   }
 
@@ -122,6 +126,9 @@ const CreateProject = props => {
         </Grid>
 
       </DialogContent>
+
+      <Notification notify={notify} setNotify={setNotify} />
+
     </Dialog>
   );
 };

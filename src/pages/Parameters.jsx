@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar, Grid, Typography, Checkbox, Divider, FormHelperText, Select, MenuItem, Radio, FormControlLabel, FormLabel, FormGroup, FormControl, RadioGroup, Container, Paper } from "@material-ui/core";
 import Button from '@mui/material/Button';
-/* 
-import { makeStyles } from "@material-ui/core/styles";
-*/
 import { makeStyles } from '@mui/styles';
 import mockProjectListData from "../data/mockProjectListData";
 import blankProjectData from "../data/blankProjectData";
@@ -13,6 +10,7 @@ import Alert from '@mui/material/Alert';
 import axios from "axios";
 import { height } from "@mui/system";
 import ProjectHeader from '../components/ProjectHeader';
+import Notification from "../components/Notification";
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -44,6 +42,7 @@ const Parameters = props => {
   const [featureLabels, setFeatures] = useState([]);
   const [labelLabels, setLabels] = useState([]);
   const [algorithmListData, setAlgorithmListData] = useState([]);
+  const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
 
 
   useEffect(() => {
@@ -135,6 +134,11 @@ const Parameters = props => {
 
     } catch (err) {
       console.log(err)
+      setNotify({
+        isOpen: true,
+        message: 'Failed to load project',
+        type: 'error'
+    })
     }
   }
 
@@ -143,17 +147,29 @@ const Parameters = props => {
 
     try {
       let res = await api.put('/projects', { id: projectId, model: model, algorithms: algorithms, features: featureLabels, label: labelLabels })
+      setNotify({
+        isOpen: true,
+        message: 'Project parameters updated',
+        type: 'success'
+    })
     } catch (err) {
       console.log(err)
-    }
+      setNotify({
+        isOpen: true,
+        message: 'Project parameters update failed',
+        type: 'error'
+    })
+      }
   }
 
 
   return (
     <>
+    { /* 
       <AppBar position="static">
         <Toolbar />
       </AppBar>
+    */}
 
       <Grid container spacing={1} >
         <Grid item xs={12}>
@@ -228,6 +244,8 @@ const Parameters = props => {
           </Grid >
         </Grid >
       </Grid >
+
+      <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 };

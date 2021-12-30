@@ -1,7 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core'
 import Drawer from '@material-ui/core/Drawer'
-import Typography from '@material-ui/core/Typography'
 import { useHistory, useLocation } from 'react-router-dom'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -9,6 +8,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { AddCircleOutlineOutlined, SubjectOutlined } from '@material-ui/icons'
 import Divider from '@mui/material/Divider';
+import Avatar from '@mui/material/Avatar';
+import sherlock from "./images/sherlock.png";
+import { Box, Grid, IconButton, Typography, CircularProgress, Toolbar, AppBar, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core";
 
 const drawerWidth = 240
 
@@ -31,6 +33,12 @@ const useStyles = makeStyles({
     background: '#888888'
     */
   },
+  title: {
+    flexGrow: 1
+  },
+  list: {
+    marginTop: "40px"
+  }
 })
 
 // export default function Layout( { children })  {
@@ -51,11 +59,11 @@ const Layout = props => {
   ];
   const projectItems = [
     { name: "Set Data File", icon: <SubjectOutlined color="primary" />, path: '/project/set_data_file/' + projectId },
-    { name: "Set Parameters", icon: <SubjectOutlined color="primary" />, path: '/project/set_parameters/'+ projectId },
-    { name: "View Correlation", icon: <SubjectOutlined color="primary" />, path: '/project/view_correlation/' + projectId},
-    { name: "View Model", icon: <SubjectOutlined color="primary" />, path: '/project/view_model/'+ projectId },
-    { name: "Predict", icon: <SubjectOutlined color="primary" />, path: '/project/predict/' + projectId},
-    { name: "View Data", icon: <SubjectOutlined color="primary" />, path: '/project/view_data_file/'+ projectId }
+    { name: "Set Parameters", icon: <SubjectOutlined color="primary" />, path: '/project/set_parameters/' + projectId },
+    { name: "View Correlation", icon: <SubjectOutlined color="primary" />, path: '/project/view_correlation/' + projectId },
+    { name: "View Model", icon: <SubjectOutlined color="primary" />, path: '/project/view_model/' + projectId },
+    { name: "Predict", icon: <SubjectOutlined color="primary" />, path: '/project/predict/' + projectId },
+    { name: "View Data", icon: <SubjectOutlined color="primary" />, path: '/project/view_data_file/' + projectId }
   ];
 
   const buildListItems = (item) => {
@@ -83,11 +91,13 @@ const Layout = props => {
         classes={{ paper: classes.drawerPaper }}
         anchor="left"
       >
-        <div>
-          <Typography variant="h5" className={classes.title}>
-            ML Studio
-          </Typography>
-        </div>
+        <AppBar position="static">
+          <Toolbar >
+            <Typography variant="h4" className={classes.title}>
+              ML Studio
+            </Typography>
+          </Toolbar>
+        </AppBar>
 
         {/* links/list section */}
         <List>
@@ -102,9 +112,18 @@ const Layout = props => {
 
       {/* main content */}
       <div className={classes.page}>
+        <AppBar position="static">
+          <Toolbar >
+            <Typography variant="h4" className={classes.title}>
+              
+            </Typography>
+
+            <Avatar alt="Sherlock" src={sherlock} />
+          </Toolbar>
+        </AppBar>
         {children}
       </div>
-    </div>
+    </div >
   );
 };
 

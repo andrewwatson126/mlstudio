@@ -60,9 +60,11 @@ const Project = props => {
 
   return (
     <>
+    { /*
       <AppBar position="static">
         <Toolbar />
       </AppBar>
+      */ }
 
       <Grid container spacing={9} >
         <ProjectHeader project={project} />
