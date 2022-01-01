@@ -19,10 +19,9 @@ const api = axios.create({
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    paddingTop: "20px",
-    margin: "20px",
-    height: "100%"
-  },
+    padding: "15px",
+    margin: "20px"
+    },
 }));
 
 
@@ -165,17 +164,12 @@ const Parameters = props => {
 
   return (
     <>
-    { /* 
-      <AppBar position="static">
-        <Toolbar />
-      </AppBar>
-    */}
 
       <Grid container spacing={1} >
         <Grid item xs={12}>
           <ProjectHeader project={project} />
           <Grid item xs={12} >
-            <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
+            <Paper className={classes.pageContent}  >
               <Typography variant="h4" gutterBottom> Set Project Parameters </Typography>
               <Typography variant="body1" gutterBottom>
               <Grid container spacing={3} >
@@ -203,7 +197,7 @@ const Parameters = props => {
                     </Select>
                     <FormHelperText>Select one or more algorithms you would like to use</FormHelperText>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={3}>
 
                     { /* Features */}
                     <FormLabel>Features</FormLabel>
@@ -214,7 +208,7 @@ const Parameters = props => {
                     </FormGroup>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={3}>
 
                     { /* Labels */}
                     <FormLabel>Labels</FormLabel>
@@ -227,15 +221,6 @@ const Parameters = props => {
                   <Grid item xs={12}>
                     <div>
                       <Button type="submit" variant="contained" color="primary" onClick={sendChanges}> Submit </Button>
-                      <Alert severity="error" >
-                        model= {model} -
-                        algorithms= {algorithms} -
-                        features= {featureLabels} -
-                        label= {labelLabels}
-
-                      </Alert>
-
-
                     </div>
                   </Grid>
                 </Grid >

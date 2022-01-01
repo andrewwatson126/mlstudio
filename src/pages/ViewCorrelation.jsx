@@ -19,10 +19,9 @@ const api = axios.create({
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    paddingTop: "20px",
-    margin: "20px",
-    height: "100%"
-  },
+    padding: "15px",
+    margin: "20px"
+    },
 }));
 
 const ViewCorrelation = props => {
@@ -116,17 +115,10 @@ const ViewCorrelation = props => {
 
   return (
     <>
-    { /*
-      <AppBar position="static">
-        <Toolbar />
-      </AppBar>
-    */ }
-
-      <Grid container spacing={9} >
+      <Grid container spacing={1} >
         <ProjectHeader project={project} />
-
         <Grid item xs={12}>
-          <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
+          <Paper className={classes.pageContent}  >
             <Typography variant="h4" gutterBottom> Feature Correlation </Typography>
             <Typography variant="body1" gutterBottom>
               {console.log("correlation=", correlation)}

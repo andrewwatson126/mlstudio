@@ -10,10 +10,12 @@ const api = axios.create({
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    paddingTop: "5px",
-    margin: "20px",
-    height: "100%"
-  },
+    padding: "15px",
+    margin: "20px"
+    },
+  field: {
+    fontWeight: 600
+  }
 }));
 
 
@@ -26,40 +28,34 @@ const ProjectHeader = props => {
   return (
     <>
 
-      <Grid item xs={12} >
+      <Grid item xs={12}>
         <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
-          <Typography variant="h4" gutterBottom> Project Header </Typography>
+          <Typography variant="h4" gutterBottom> Project - {project.id}: {project.name} </Typography>
           <Typography variant="body1" gutterBottom>
             <Grid container spacing={false} >
-              <Grid item xs={6}>
-                <div>Id: {project.id}</div>
+              <Grid item xs={6} md={3}>
+                <div> <span className={classes.field}>Created By: </span>{project.created_by} </div>
               </Grid>
-              <Grid item xs={6}>
-                <div>Name: {project.name} </div>
+              <Grid item xs={6} md={3}>
+                <div><span className={classes.field}>Created Date: </span> {project.created_date}</div>
               </Grid>
-              <Grid item xs={6}>
-                <div>Created By: {project.created_by} </div>
+              <Grid item xs={6} md={3}>
+                <div><span className={classes.field}>Data File: </span> {project.data_file} </div>
               </Grid>
-              <Grid item xs={6}>
-                <div>Created Date: {project.created_date}</div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>Description: {project.description} </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>Data File: {project.data_file} </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>Model : {project.model} </div>
+              <Grid item xs={6} md={3}>
+                <div><span className={classes.field}>Model: </span> {project.model} </div>
               </Grid>
               <Grid item xs={12}>
-                <div>Algorithm: {project.algorithms.map((algorithm) => <span>{algorithm} </span>)}</div>
+                <div> <span className={classes.field}>Description: </span><span>{project.description} </span>)</div>
               </Grid>
               <Grid item xs={12}>
-                <div>Features: {project.features.map((feature) => <span>{feature} </span>)}</div>
+                <div> <span className={classes.field}>Algorithm: </span> {project.algorithms.map((algorithm) => <span>{algorithm} </span>)}</div>
               </Grid>
               <Grid item xs={12}>
-                <div>Label: {project.label.map((label) => <span>{label} </span>)}</div>
+                <div><span className={classes.field}>Features: </span> {project.features.map((feature) => <span>{feature} </span>)}</div>
+              </Grid>
+              <Grid item xs={12}>
+                <div><span className={classes.field}>Label: </span> {project.label.map((label) => <span>{label} </span>)}</div>
               </Grid>
             </Grid>
           </Typography>

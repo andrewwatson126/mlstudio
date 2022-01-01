@@ -12,6 +12,7 @@ import ViewModel from './pages/ViewModel';
 import Predict from './pages/Predict';
 import ViewCorrelation from './pages/ViewCorrelation';
 import ViewData from './pages/ViewData';
+import ViewPlot from './pages/ViewPlot';
 
 //const theme = createMuiTheme({
 const theme = createTheme({
@@ -60,6 +61,7 @@ const App = (props) => {
               <Route exact path="/project/view_model/:projectId" render={(props) => <ViewModel {...props} />} />
               <Route exact path="/project/predict/:projectId" render={(props) => <Predict {...props} />} />
               <Route exact path="/project/view_data_file/:projectId" render={(props) => <ViewData {...props} />} />
+              <Route exact path="/project/view_plot/:projectId" render={(props) => <ViewPlot {...props} />} />
             </Switch>
           </Layout>
         </Router>

@@ -23,13 +23,9 @@ const api = axios.create({
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    paddingTop: "20px",
-    margin: "20px",
-    height: "100%"
+    padding: "15px",
+    margin: "20px"
   },
-  toolbarContent: {
-    width: "100%"
-  }
 }));
 
 
@@ -46,6 +42,10 @@ const DataFile = (props) => {
   const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
 
   useEffect(() => {
+    if (projectId == 0) {
+      setNotify({ isOpen: true, message: "Go to Project List and select a project to view", type: 'error' })
+    }
+
     api.get('/projects/' + projectId).then(function (response) {
       const { data } = response;
       console.log("useEffect data=", data);
@@ -86,18 +86,7 @@ const DataFile = (props) => {
 
   return (
     <>
-    { /* 
-      <AppBar position="static">
-        <Toolbar >
-          <div style={{ width: '100%' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} >
-              <Avatar alt="Sherlock" src={sherlock} />
-            </Box>
-          </div>
-        </Toolbar>
-      </AppBar>
-  */}
-      <Grid container spacing={9} >
+      <Grid container spacing={1} >
         <ProjectHeader project={project} />
         <Grid item xs={12}>
           <Paper className={classes.pageContent}>

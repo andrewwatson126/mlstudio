@@ -63,7 +63,8 @@ const Layout = props => {
     { name: "View Correlation", icon: <SubjectOutlined color="primary" />, path: '/project/view_correlation/' + projectId },
     { name: "View Model", icon: <SubjectOutlined color="primary" />, path: '/project/view_model/' + projectId },
     { name: "Predict", icon: <SubjectOutlined color="primary" />, path: '/project/predict/' + projectId },
-    { name: "View Data", icon: <SubjectOutlined color="primary" />, path: '/project/view_data_file/' + projectId }
+    { name: "View Data", icon: <SubjectOutlined color="primary" />, path: '/project/view_data_file/' + projectId },
+    { name: "View Plot", icon: <SubjectOutlined color="primary" />, path: '/project/view_plot/' + projectId }
   ];
 
   const buildListItems = (item) => {

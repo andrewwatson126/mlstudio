@@ -7,6 +7,7 @@ import axios from "axios";
 import { makeStyles } from '@mui/styles';
 import ProjectHeader from '../components/ProjectHeader';
 import Notification from "../components/Notification";
+import blankProjectData from "../data/blankProjectData";
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -14,10 +15,9 @@ const api = axios.create({
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    paddingTop: "20px",
-    margin: "20px",
-    height: "100%"
-  },
+    padding: "15px",
+    margin: "20px"
+    },
   form: {
     width: '90%',
     // margin: theme.spacing(1)
@@ -32,7 +32,7 @@ const Predict = props => {
 
   const classes = useStyles();
 
-  const [project, setProject] = useState(mockProjectListData[projectId]);
+  const [project, setProject] = useState(blankProjectData);
   const [features, setFeatures] = useState([]);
   const [values, setValues] = useState({});
   const [prediction, setPrediction] = useState({});
@@ -73,21 +73,11 @@ const Predict = props => {
     try {
       let d1 = []
       let d2 = []
-      //values.map((value => d2.push(value)))
-      Object.keys(values).map(name => d2.push(values[name]))
+      features.map(feature => d2.push(values[feature]))
       d1.push(d2)
 
       console.log('d2=', d2)
       console.log('d1=', d1)
-      /*
-      let d1 = []
-      let d2 = []
-      d1.push(d2)
-      d2.push(1)
-      d2.push(2)
-      d2.push(3)
-      d2.push(4)
-      */
       let res = await api.post('/projects/predict?project_id=' + projectId, d1);
       console.log('predict res=', res);
       const { data } = res;
@@ -127,13 +117,7 @@ const Predict = props => {
 
   return (
     <>
-    { /*
-      <AppBar position="static">
-        <Toolbar />
-      </AppBar>
-    */ }
-
-      <Grid container spacing={4} >
+      <Grid container spacing={1} >
         <ProjectHeader project={project} />
 
         <Grid item xs={12}  >

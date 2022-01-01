@@ -6,11 +6,8 @@ import mockProjectListData from "../data/mockProjectListData";
 import axios from "axios";
 import blankProjectData from "../data/blankProjectData";
 import ProjectHeader from "../components/ProjectHeader";
-/* 
-import { makeStyles } from "@material-ui/core/styles";
-*/
 import { makeStyles } from '@mui/styles';
-
+import NumberFormat from 'react-number-format';
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -52,8 +49,10 @@ const Project = props => {
     return (
       <TableRow key={algorithm}>
         <TableCell align="right">{algorithm}</TableCell>
-        <TableCell align="right">{accuracy[0]}</TableCell>
-        <TableCell align="right">{accuracy[1]}</TableCell>
+        <TableCell align="right"><NumberFormat value={accuracy[0]*100} decimalScale={4} fixedDecimalScale={true} displayType={'text'} thousandSeparator={true} prefix={'%'} /></TableCell>
+        <TableCell align="right"><NumberFormat value={accuracy[1]} decimalScale={4} displayType={'text'} thousandSeparator={true}  /></TableCell>
+
+      
       </TableRow>
     );
   }

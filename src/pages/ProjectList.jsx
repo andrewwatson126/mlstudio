@@ -90,14 +90,14 @@ const ProjectList = (props) => {
 
   const getProjectListRow = (projectId) => {
     console.log(projectListData[{ projectId }.projectId]);
-    const { id, name, created_by, created_date, description } = projectListData[{ projectId }.projectId];
+    const { id, name, created_by, created_date, description, data_file } = projectListData[{ projectId }.projectId];
     return (
       <TableRow key={projectId}>
         <TableCell component="th" scope="row">{id}</TableCell>
         <TableCell align="right">{name}</TableCell>
         <TableCell align="right">{created_by}</TableCell>
         <TableCell align="right">{created_date}</TableCell>
-        <TableCell align="right">{description}</TableCell>
+        <TableCell align="right">{data_file}</TableCell>
         <TableCell align="right">
           <Button variant="contained" onClick={() => viewProjectHandler(id)}><PreviewIcon /></Button>
           <Button variant="contained" onClick={() => deleteProjectHandler(id)}><DeleteIcon /></Button>
@@ -114,7 +114,7 @@ const ProjectList = (props) => {
           <TableCell align="right">Name</TableCell>
           <TableCell align="right">Created By</TableCell>
           <TableCell align="right">Created Date</TableCell>
-          <TableCell align="right">Description</TableCell>
+          <TableCell align="right">Data File</TableCell>
           <TableCell align="right"></TableCell>
         </TableRow>
       </TableHead>
@@ -123,12 +123,6 @@ const ProjectList = (props) => {
 
   return (
     <>
-    { /* 
-      <AppBar position="static">
-        <Toolbar />
-      </AppBar>
-     */ }
-
       <Grid container spacing={4} >
         <Grid item xs={false}></Grid>
         <Grid item xs={12}>
