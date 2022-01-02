@@ -8,6 +8,8 @@ import blankProjectData from "../data/blankProjectData";
 import ProjectHeader from "../components/ProjectHeader";
 import { makeStyles } from '@mui/styles';
 import NumberFormat from 'react-number-format';
+import { PureComponent } from 'react';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -21,6 +23,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+let datax = [
+  {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  }
+];
+
 const Project = props => {
   const { match } = props
   const { params } = match
@@ -30,6 +41,7 @@ const Project = props => {
 
   const [project, setProject] = useState(blankProjectData);
   const [accuracyList, setAccuracyList] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     let localFeaturesLabelsList = [];
@@ -42,57 +54,91 @@ const Project = props => {
       setAccuracyList(data.accuracy);
     });
 
-  }, [project.id]);
+    let d = [];
+    Object.entries(accuracyList).map(([algorithm, accuracy]) => {
+      let i = {};
+      console.log("@@@@@@@@@@@", algorithm, '-', accuracy[0])
+      i["Name"] = algorithm;
+      i["Mean"] = accuracy[0];
+      i["StandardDeviation"] = accuracy[1];
+      d.push(i);
+      console.log("@@@@@@@@@@@D", d)
+    }
+    )
+    setData(d)
+
+  }, [project.id,accuracyList]);
 
 
   const displayRow = (algorithm, accuracy) => {
     return (
       <TableRow key={algorithm}>
         <TableCell align="right">{algorithm}</TableCell>
-        <TableCell align="right"><NumberFormat value={accuracy[0]*100} decimalScale={4} fixedDecimalScale={true} displayType={'text'} thousandSeparator={true} prefix={'%'} /></TableCell>
-        <TableCell align="right"><NumberFormat value={accuracy[1]} decimalScale={4} displayType={'text'} thousandSeparator={true}  /></TableCell>
+        <TableCell align="right"><NumberFormat value={accuracy[0] * 100} decimalScale={4} fixedDecimalScale={true} displayType={'text'} thousandSeparator={true} prefix={'%'} /></TableCell>
+        <TableCell align="right"><NumberFormat value={accuracy[1]} decimalScale={4} displayType={'text'} thousandSeparator={true} /></TableCell>
 
-      
+
       </TableRow>
     );
   }
 
   return (
     <>
-    { /*
-      <AppBar position="static">
-        <Toolbar />
-      </AppBar>
-      */ }
-
-      <Grid container spacing={9} >
+      <Grid container spacing={1} >
         <ProjectHeader project={project} />
 
         <Grid item xs={12} >
           <Paper className={classes.pageContent} sx={{ p: 2, display: 'flex', flexDirection: 'column' }} >
-            <Typography variant="h4" gutterBottom> Predict </Typography>
-            <Typography variant="body1" gutterBottom>
-              <TableContainer >
-                <Table >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="right">Algorithm Name</TableCell>
-                      <TableCell align="right">Accuracy Mean</TableCell>
-                      <TableCell align="right">Accuracy Standard Deviation</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
+            <Grid container spacing={1} >
+              <Grid item xs={12} >
 
-                    {project ? (
-                      Object.entries(accuracyList)
-                        .map(([algorithm, accuracy]) => displayRow(algorithm, accuracy)
-                        )
-                    ) : (<CircularProgress />)
-                    }
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Typography>
+                <Typography variant="h4" gutterBottom> Model </Typography>
+                <Typography variant="body1" gutterBottom>
+                  <TableContainer >
+                    <Table >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="right">Algorithm Name</TableCell>
+                          <TableCell align="right">Accuracy Mean</TableCell>
+                          <TableCell align="right">Accuracy Standard Deviation</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+
+                        {project ? (
+                          Object.entries(accuracyList)
+                            .map(([algorithm, accuracy]) => displayRow(algorithm, accuracy)
+                            )
+                        ) : (<CircularProgress />)
+                        }
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Typography>
+              </Grid>
+              <Grid item xs={12} >
+              <Typography variant="h5" gutterBottom> Accuracy Mean </Typography>
+                  <BarChart width={800} height={500} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="Name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="Mean" fill="#8884d8" />
+                  </BarChart>
+              </Grid>
+              <Grid item xs={12} >
+              <Typography variant="h5" gutterBottom> Accuracy Standard Deviation </Typography>
+                  <BarChart width={800} height={500} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="Name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="StandardDeviation" fill="#82ca9d" />
+                  </BarChart>
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
       </Grid>
