@@ -1,0 +1,27 @@
+cinsiyet erkek=1 kadin=2
+Aslen nerelisiniz?Bati:1 Göçmen:2 Doğu:3 iç anadolu:4
+yaş (yıl)
+ateş (var=1, yok=0)
+Boyun bölgesinde Lenf bezlerinde şişlik oldu mu?
+ateşe ishal eşlik ediyor mu?
+ateşe ağız içinde yaralar var m??
+ateşe karın ağrısı eşlik ediyor mu?
+ateşe tonsillit eşlik ediyor mu?
+erizipel ayağında kızarıklık ağrı şeklinde döküntü?	
+ateşe eklemlerde şişlik kızarıklık eşlik ediyor mu?	
+ateşe artralji eşlik ediyor mu?	
+ateşli ataklarınız kaç gün sürüyor?	
+atak sıklıklarınız yılda kaç kez oluyor?	
+ilk atak yaşı (yıl) ne zaman ?	
+serum amiloid A (0-6 arası normal)	
+CRP <3 normal	
+prokalsitonin < 0,05 normal	
+fibrinojen (180-400 normal)	
+sedimantasyon (<20 normal)	
+lökosit (4500-11000 normal)	
+ANS (1500 üzeri normal)	
+trombosit (145000-500000 normal)	
+hemogram (12-16)	
+monosit %	
+monosit sayı
+

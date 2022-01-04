@@ -7,10 +7,8 @@ import axios from "axios";
 import Buffer from "Buffer";
 import blankProjectData from "../data/blankProjectData";
 import ProjectHeader from '../components/ProjectHeader';
-/* 
-import { makeStyles } from "@material-ui/core/styles";
-*/
 import { makeStyles } from '@mui/styles';
+import Notification from "../components/Notification";
 
 
 const api = axios.create({
@@ -34,6 +32,7 @@ const ViewCorrelation = props => {
   const [project, setProject] = useState(blankProjectData);
   //const [correlation, setCorrelation] = useState("data:image/png;base64, " + "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==");
   const [correlation, setCorrelation] = useState("waiting");
+  const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
 
   useEffect(() => {
     console.log("ViewCorrelation useEffect stated")
@@ -42,6 +41,13 @@ const ViewCorrelation = props => {
       console.log("!!! useEffect  project=", data);
       console.log("ViewCorrelation useEffect project=", data)
       setProject(data);
+    }).catch(function (error) {
+      let msg = 'Plot project failed=' + error;
+      setNotify({
+        isOpen: true,
+        message: msg,
+        type: 'error'
+      })
     });
 
     axios({
@@ -61,8 +67,14 @@ const ViewCorrelation = props => {
         console.log("res=", res);
         console.log("base64=", base64);
         //setCorrelation("data:image/png;base64, " + "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==")
-      })
-
+      }).catch(function (error) {
+        let msg = 'Plot project failed=' + error;
+        setNotify({
+          isOpen: true,
+          message: msg,
+          type: 'error'
+        })
+      });
 
   }, []);
 
@@ -127,6 +139,9 @@ const ViewCorrelation = props => {
           </Paper>
         </Grid>
       </Grid>
+
+      <Notification notify={notify} setNotify={setNotify} />
+
     </>
   );
 };

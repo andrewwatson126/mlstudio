@@ -59,8 +59,14 @@ const Parameters = props => {
       getAlgorithms();
       getFeatureLabels();
       getLabelLabels();
+    }).catch(function (error) {
+      let msg = 'Loading project failed=' + error;
+      setNotify({
+        isOpen: true,
+        message: msg,
+        type: 'error'
+      })
     });
-
 
     const getFeaturesLabels = () => {
       api.get('/projects/features_labels/' + projectId).then(function (response) {
@@ -70,6 +76,13 @@ const Parameters = props => {
         console.log("!!! useEffect  features_lables-response=", response);
         console.log("!!! useEffect getFeaturesLabels localFeaturesLabelsList=", localFeaturesLabelsList);
         setFeaturesLabelsList(data);
+      }).catch(function (error) {
+        let msg = 'Loading project features and labels failed=' + error;
+        setNotify({
+          isOpen: true,
+          message: msg,
+          type: 'error'
+        })
       });
     }
 
@@ -78,7 +91,14 @@ const Parameters = props => {
         const { data } = response;
         console.log("!!! useEffect  algorithms=", data);
         setAlgorithmListData(data);
-      })
+      }).catch(function (error) {
+        let msg = 'Loading algorithms failed=' + error;
+        setNotify({
+          isOpen: true,
+          message: msg,
+          type: 'error'
+        })
+      });
     }
 
     const getLabelLabels = () => {

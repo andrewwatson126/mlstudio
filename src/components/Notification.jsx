@@ -31,11 +31,12 @@ const Notification = props => {
         <Snackbar
             className={classes.root}
             open={notify.isOpen}
-            autoHideDuration={3000}
+            autoHideDuration={5000}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             onClose={handleClose}>
-            <Alert
+            <Alert 
                 severity={notify.type}
+                variant="filled"
                 onClose={handleClose}>
                 {notify.message}
             </Alert>

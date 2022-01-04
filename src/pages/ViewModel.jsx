@@ -10,6 +10,7 @@ import { makeStyles } from '@mui/styles';
 import NumberFormat from 'react-number-format';
 import { PureComponent } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Notification from "../components/Notification";
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -42,6 +43,7 @@ const Project = props => {
   const [project, setProject] = useState(blankProjectData);
   const [accuracyList, setAccuracyList] = useState([]);
   const [data, setData] = useState([]);
+  const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
 
   useEffect(() => {
     let localFeaturesLabelsList = [];
@@ -52,8 +54,14 @@ const Project = props => {
       console.log("!!! useEffect  project=", data);
       setProject(data);
       setAccuracyList(data.accuracy);
+    }).catch(function (error) {
+      let msg = 'Plot project failed=' + error;
+      setNotify({
+        isOpen: true,
+        message: msg,
+        type: 'error'
+      })
     });
-
     let d = [];
     Object.entries(accuracyList).map(([algorithm, accuracy]) => {
       let i = {};
@@ -76,8 +84,6 @@ const Project = props => {
         <TableCell align="right">{algorithm}</TableCell>
         <TableCell align="right"><NumberFormat value={accuracy[0] * 100} decimalScale={4} fixedDecimalScale={true} displayType={'text'} thousandSeparator={true} prefix={'%'} /></TableCell>
         <TableCell align="right"><NumberFormat value={accuracy[1]} decimalScale={4} displayType={'text'} thousandSeparator={true} /></TableCell>
-
-
       </TableRow>
     );
   }
@@ -142,6 +148,9 @@ const Project = props => {
           </Paper>
         </Grid>
       </Grid>
+
+      <Notification notify={notify} setNotify={setNotify} />
+
     </>
   );
 };

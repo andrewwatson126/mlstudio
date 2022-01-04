@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Checkbox, Divider, FormHelperText, Select, MenuItem, Radio, FormControlLabel, FormLabel, FormGroup, FormControl, RadioGroup, Typography, CircularProgress, Toolbar, AppBar, TextField, Container, Paper } from "@material-ui/core";
 import Button from '@mui/material/Button';
-/* 
-import { makeStyles } from "@material-ui/core/styles";
-*/
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
 import mockProjectListData from "../data/mockProjectListData";
@@ -35,8 +32,6 @@ const Parameters = props => {
   const classes = useStyles();
   const history = useHistory();
 
-
-
   const [project, setProject] = useState(mockProjectListData[projectId]);
 
 
@@ -61,8 +56,6 @@ const Parameters = props => {
               <div> Features: {project.features.map((feature) => <div>{feature} </div>)}</div>
               <div> Label: {project.label.map((label) => <div>{label} </div>)}</div>
               <br />
-
-
             </Paper>
           </Grid>
         </Grid>

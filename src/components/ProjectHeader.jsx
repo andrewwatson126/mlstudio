@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProjectHeader = props => {
   const { project } = props
-
+  
   const classes = useStyles();
 
 
@@ -33,29 +33,29 @@ const ProjectHeader = props => {
           <Typography variant="h4" gutterBottom> Project - {project.id}: {project.name} </Typography>
           <Typography variant="body1" gutterBottom>
             <Grid container spacing={false} >
-              <Grid item xs={6} md={3}>
+              <Grid item xs={12} md={3}>
                 <div> <span className={classes.field}>Created By: </span>{project.created_by} </div>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid item xs={12} md={3}>
                 <div><span className={classes.field}>Created Date: </span> {project.created_date}</div>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid item xs={12} md={3}>
                 <div><span className={classes.field}>Data File: </span> {project.data_file} </div>
               </Grid>
               <Grid item xs={6} md={3}>
                 <div><span className={classes.field}>Model: </span> {project.model} </div>
               </Grid>
-              <Grid item xs={12}>
-                <div> <span className={classes.field}>Description: </span><span>{project.description} </span>)</div>
-              </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={3}>
                 <div> <span className={classes.field}>Algorithm: </span> {project.algorithms.map((algorithm) => <span>{algorithm} </span>)}</div>
               </Grid>
-              <Grid item xs={12}>
-                <div><span className={classes.field}>Features: </span> {project.features.map((feature) => <span>{feature} </span>)}</div>
+              <Grid item xs={12} md={3}>
+                <div><span className={classes.field}>Label: </span> {project.label.map((label) => <span>{label} </span>)}</div>
+              </Grid>
+              <Grid item xs={12}  md={6}>
+                <div><span className={classes.field}>Features: </span> {project.features.map((feature) => <span>{feature}, </span>)}</div>
               </Grid>
               <Grid item xs={12}>
-                <div><span className={classes.field}>Label: </span> {project.label.map((label) => <span>{label} </span>)}</div>
+                <div> <span className={classes.field}>Description: </span><span>{project.description} </span></div>
               </Grid>
             </Grid>
           </Typography>

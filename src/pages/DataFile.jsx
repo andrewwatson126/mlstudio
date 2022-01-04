@@ -14,7 +14,7 @@ import blankProjectData from "../data/blankProjectData";
 import Avatar from '@mui/material/Avatar';
 import sherlock from "../images/sherlock.png";
 import CloseIcon from '@material-ui/icons/Close';
-
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 const api = axios.create({
   baseURL: 'http://apiserver:8000/'
@@ -40,6 +40,7 @@ const DataFile = (props) => {
   const [project, setProject] = useState(blankProjectData);
   const [dataFile, setDataFile] = useState([]);
   const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
+  const [uploaded, setUploaded] = useState([false]);
 
   useEffect(() => {
     if (projectId == 0) {
@@ -53,7 +54,7 @@ const DataFile = (props) => {
       setProject(data);
       setDataFile(data.data_file);
     })
-  }, []);
+  }, [uploaded]);
 
 
   const handleDataFileChange = (e) => {
@@ -78,6 +79,7 @@ const DataFile = (props) => {
     }).then(res => {
       console.log(res);
       setNotify({ isOpen: true, message: 'File upload successfully', type: 'success' })
+      setUploaded(true)
     }).catch(function (error) {
       let msg = 'Project could not be deleted error=' + error;
       setNotify({ isOpen: true, message: msg, type: 'error' })
@@ -86,10 +88,13 @@ const DataFile = (props) => {
 
   return (
     <>
+      <Notification notify={notify} setNotify={setNotify} />
+
       <Grid container spacing={1} >
         <ProjectHeader project={project} />
         <Grid item xs={12}>
           <Paper className={classes.pageContent}>
+          <Typography variant="h4" gutterBottom> Upload Data File </Typography>
             <input type="file" onChange={handleDataFileChange} />
             <Button variant="contained" color="primary" onClick={uplodaDataFile} >
               Upload
@@ -99,7 +104,6 @@ const DataFile = (props) => {
         <Grid item xs={false}></Grid>
       </Grid>
 
-      <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 };

@@ -10,6 +10,13 @@ import { AddCircleOutlineOutlined, SubjectOutlined } from '@material-ui/icons'
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import sherlock from "./images/sherlock.png";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
+import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import ScatterPlotIcon from '@mui/icons-material/ScatterPlot';
+import DataArrayIcon from '@mui/icons-material/DataArray';
+import OnlinePredictionIcon from '@mui/icons-material/OnlinePrediction';
 import { Box, Grid, IconButton, Typography, CircularProgress, Toolbar, AppBar, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core";
 
 const drawerWidth = 240
@@ -58,13 +65,13 @@ const Layout = props => {
     { name: "Project List", icon: <SubjectOutlined color="primary" />, path: '/' },
   ];
   const projectItems = [
-    { name: "Set Data File", icon: <SubjectOutlined color="primary" />, path: '/project/set_data_file/' + projectId },
-    { name: "Set Parameters", icon: <SubjectOutlined color="primary" />, path: '/project/set_parameters/' + projectId },
-    { name: "View Correlation", icon: <SubjectOutlined color="primary" />, path: '/project/view_correlation/' + projectId },
-    { name: "View Model", icon: <SubjectOutlined color="primary" />, path: '/project/view_model/' + projectId },
-    { name: "Predict", icon: <SubjectOutlined color="primary" />, path: '/project/predict/' + projectId },
-    { name: "View Data", icon: <SubjectOutlined color="primary" />, path: '/project/view_data_file/' + projectId },
-    { name: "View Plot", icon: <SubjectOutlined color="primary" />, path: '/project/view_plot/' + projectId }
+    { name: "Set Data File", icon: <FileUploadIcon color="primary" />, path: '/project/set_data_file/' + projectId },
+    { name: "Set Parameters", icon: <DisplaySettingsIcon color="primary" />, path: '/project/set_parameters/' + projectId },
+    { name: "View Model", icon: <ModelTrainingIcon color="primary" />, path: '/project/view_model/' + projectId },
+    { name: "View Correlation", icon: <CompareArrowsIcon color="primary" />, path: '/project/view_correlation/' + projectId },
+    { name: "View Plot", icon: <ScatterPlotIcon color="primary" />, path: '/project/view_plot/' + projectId },
+    { name: "View Data", icon: <DataArrayIcon color="primary" />, path: '/project/view_data_file/' + projectId },
+    { name: "Predict", icon: <OnlinePredictionIcon color="primary" />, path: '/project/predict/' + projectId }
   ];
 
   const buildListItems = (item) => {
