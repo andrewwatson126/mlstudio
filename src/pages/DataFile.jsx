@@ -53,8 +53,14 @@ const DataFile = (props) => {
       console.log("useEffect data_file=", data.data_file);
       setProject(data);
       setDataFile(data.data_file);
-    })
-  }, [uploaded]);
+    }).catch(function (error) {
+      let msg = 'Loading project failed=' + error;
+      setNotify({
+        isOpen: true,
+        message: msg,
+        type: 'error'
+      })
+    });  }, [uploaded]);
 
 
   const handleDataFileChange = (e) => {

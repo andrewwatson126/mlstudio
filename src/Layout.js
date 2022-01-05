@@ -18,6 +18,7 @@ import ScatterPlotIcon from '@mui/icons-material/ScatterPlot';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import OnlinePredictionIcon from '@mui/icons-material/OnlinePrediction';
 import { Box, Grid, IconButton, Typography, CircularProgress, Toolbar, AppBar, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core";
+import Link from '@mui/material/Link';
 
 const drawerWidth = 240
 
@@ -62,20 +63,34 @@ const Layout = props => {
   const location = useLocation()
 
   const mainItems = [
-    { name: "Project List", icon: <SubjectOutlined color="primary" />, path: '/' },
+    { type: "link", name: "Project List", icon: <SubjectOutlined color="primary" />, path: '/' },
   ];
   const projectItems = [
-    { name: "Set Data File", icon: <FileUploadIcon color="primary" />, path: '/project/set_data_file/' + projectId },
-    { name: "Set Parameters", icon: <DisplaySettingsIcon color="primary" />, path: '/project/set_parameters/' + projectId },
-    { name: "View Model", icon: <ModelTrainingIcon color="primary" />, path: '/project/view_model/' + projectId },
-    { name: "View Correlation", icon: <CompareArrowsIcon color="primary" />, path: '/project/view_correlation/' + projectId },
-    { name: "View Plot", icon: <ScatterPlotIcon color="primary" />, path: '/project/view_plot/' + projectId },
-    { name: "View Data", icon: <DataArrayIcon color="primary" />, path: '/project/view_data_file/' + projectId },
-    { name: "Predict", icon: <OnlinePredictionIcon color="primary" />, path: '/project/predict/' + projectId }
+    { type: "caption", name: "Prepare Data" },
+    { type: "link", name: "Set Data File", icon: <FileUploadIcon color="primary" />, path: '/project/set_data_file/' + projectId },
+    { type: "caption", name: "Build Model" },
+    { type: "link", name: "Set Parameters", icon: <DisplaySettingsIcon color="primary" />, path: '/project/set_parameters/' + projectId },
+    { type: "link", name: "View Model", icon: <ModelTrainingIcon color="primary" />, path: '/project/view_model/' + projectId },
+    { type: "link", name: "View Correlation", icon: <CompareArrowsIcon color="primary" />, path: '/project/view_correlation/' + projectId },
+    { type: "caption", name: "Get Insight" },
+    { type: "link", name: "View Plot", icon: <ScatterPlotIcon color="primary" />, path: '/project/view_plot/' + projectId },
+    { type: "link", name: "View Data", icon: <DataArrayIcon color="primary" />, path: '/project/view_data_file/' + projectId },
+    { type: "link", name: "Predict", icon: <OnlinePredictionIcon color="primary" />, path: '/project/predict/' + projectId }
   ];
 
   const buildListItems = (item) => {
-    const { name, icon, path } = item;
+    const { type, name, icon, path } = item;
+
+    console.log("type=", type)
+    if(type == "caption") {
+      return (
+        <ListItem>
+          <ListItemText>
+          <Typography variant="overline" className={classes.title}>{name}</Typography>          
+          </ListItemText>
+        </ListItem>
+      );
+      } else {
 
     return (
       <ListItem button key={name} onClick={() => history.push(path)}>
@@ -85,6 +100,7 @@ const Layout = props => {
         <ListItemText primary={name} />
       </ListItem>
     );
+  }
   };
 
 
@@ -122,8 +138,9 @@ const Layout = props => {
       <div className={classes.page}>
         <AppBar position="static">
           <Toolbar >
-            <Typography variant="h4" className={classes.title}>
-              
+            <Typography variant="body1" className={classes.title}>
+            <Link href="https://docs.google.com/presentation/d/16F10j2T9tD0VdkHqj9016Y0vcFNdQxNiyYaxQlK5zxQ/edit#slide=id.g108c567d1d7_0_9">mlstudio</Link>
+
             </Typography>
 
             <Avatar alt="Sherlock" src={sherlock} />
