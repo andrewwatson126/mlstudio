@@ -109,22 +109,22 @@ const ViewPlot = props => {
                 <Typography variant="h4" gutterBottom> Data Plots </Typography>
                 <Typography variant="body1" gutterBottom>
                   <Grid container spacing={1} >
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={6} md={6}>
                       <img src={plot1} />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={6} md={6}>
                       <img src={plot2} />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={6} md={6}>
                       <img src={plot3} />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={6} md={6}>
                       <img src={plot4} />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={6} md={6}>
                       <img src={plot5} />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={6} md={6}>
                       <img src={plot6} />
                     </Grid>
                   </Grid>

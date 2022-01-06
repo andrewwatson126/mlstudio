@@ -140,7 +140,6 @@ const Layout = props => {
           <Toolbar >
             <Typography variant="body1" className={classes.title}>
             <Link href="https://docs.google.com/presentation/d/16F10j2T9tD0VdkHqj9016Y0vcFNdQxNiyYaxQlK5zxQ/edit#slide=id.g108c567d1d7_0_9">mlstudio</Link>
-
             </Typography>
 
             <Avatar alt="Sherlock" src={sherlock} />
