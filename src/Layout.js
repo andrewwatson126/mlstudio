@@ -77,10 +77,7 @@ const Layout = props => {
     { type: "link", name: "View Plot", icon: <ScatterPlotIcon color="primary" />, path: '/project/view_plot/' + projectId },
     { type: "link", name: "ROC Curve", icon: <MovingIcon color="primary" />, path: '/project/roc /' + projectId },
     { type: "link", name: "View Data", icon: <DataArrayIcon color="primary" />, path: '/project/view_data_file/' + projectId },
-    { type: "link", name: "Predict", icon: <OnlinePredictionIcon color="primary" />, path: '/project/predict/' + projectId },
-    { type: "caption", name: "Example" },
-    { type: "link", name: "Table Exampe", icon: <OnlinePredictionIcon color="primary" />, path: '/project/example/' },
-    { type: "link", name: "Orig Table Exampe", icon: <OnlinePredictionIcon color="primary" />, path: '/project/origexample/' }
+    { type: "link", name: "Predict", icon: <OnlinePredictionIcon color="primary" />, path: '/project/predict/' + projectId }
   ];
 
   const buildListItems = (item) => {
