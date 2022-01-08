@@ -7,6 +7,7 @@ import axios from "axios";
 import Buffer from "Buffer";
 import blankProjectData from "../data/blankProjectData";
 import ProjectHeader from '../components/ProjectHeader';
+import EnhancedTable from '../components/EnhancedTable';
 import { makeStyles } from '@mui/styles';
 import Notification from "../components/Notification";
 
@@ -19,8 +20,15 @@ const useStyles = makeStyles((theme) => ({
   pageContent: {
     padding: "15px",
     margin: "20px"
-    },
+  },
 }));
+
+const headCells = [
+  { id: 'feature1', numeric: false, disablePadding: true, label: 'Feature 1' },
+  { id: 'feature2', numeric: false, disablePadding: true, label: 'Feature 2' },
+  { id: 'correlation', numeric: true, disablePadding: false, label: 'Correlation' },
+];
+
 
 const ViewCorrelation = props => {
   const { match } = props
@@ -32,6 +40,7 @@ const ViewCorrelation = props => {
   const [project, setProject] = useState(blankProjectData);
   //const [correlation, setCorrelation] = useState("data:image/png;base64, " + "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==");
   const [correlation, setCorrelation] = useState("waiting");
+  const [correlationList, setCorrelationList] = useState([]);
   const [notify, setNotify] = useState({ isOpen: true, message: '', type: '' })
 
   useEffect(() => {
@@ -57,9 +66,9 @@ const ViewCorrelation = props => {
     })
       .then(function (res) {
         const reader = new FileReader();
-        let  base64 = "";
+        let base64 = "";
         reader.addEventListener('loadend', (e) => {
-           base64 = e.srcElement.result;
+          base64 = e.srcElement.result;
           console.log(base64);
           setCorrelation("data:image/png;base64," + base64);
         });
@@ -76,6 +85,23 @@ const ViewCorrelation = props => {
         })
       });
 
+    api.get('/projects/correlation_values/' + projectId).then(function (response) {
+      const { data } = response;
+      console.log("!!! useEffect  project=", data);
+      console.log("ViewCorrelation useEffect project=", data)
+      setCorrelationList(data);
+      console.log("data", data)
+    }).catch(function (error) {
+      let msg = 'Plot project failed=' + error;
+      setNotify({
+        isOpen: true,
+        message: msg,
+        type: 'error'
+      })
+    });
+
+
+
   }, []);
 
   function toBinary(string) {
@@ -91,7 +117,7 @@ const ViewCorrelation = props => {
     return result;
   }
 
- 
+
 
   const uint8ToString = (buf) => {
     var i, length, out = '';
@@ -125,6 +151,16 @@ const ViewCorrelation = props => {
     );
   }
 
+  const displayCorrelation = (correlation) => {
+    return (
+      <TableRow key={correlation[0]}>
+        <TableCell align="right">{correlation[0]}</TableCell>
+        <TableCell align="right">{correlation[1]}</TableCell>
+        <TableCell align="right">{correlation[2]}</TableCell>
+      </TableRow>
+    );
+  }
+
   return (
     <>
       <Grid container spacing={1} >
@@ -136,6 +172,12 @@ const ViewCorrelation = props => {
               {console.log("correlation=", correlation)}
               <img src={correlation} />
             </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.pageContent}  >
+            <Typography variant="h4" gutterBottom> Feature Correlation List</Typography>
+            <EnhancedTable headCells={headCells} correlationList={correlationList} />
           </Paper>
         </Grid>
       </Grid>

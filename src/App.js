@@ -13,6 +13,8 @@ import Predict from './pages/Predict';
 import ViewCorrelation from './pages/ViewCorrelation';
 import ViewData from './pages/ViewData';
 import ViewPlot from './pages/ViewPlot';
+import TableExample from './pages/TableExample';
+import OrigTableExample from './pages/OrigTableExample';
 
 //const theme = createMuiTheme({
 const theme = createTheme({
@@ -62,6 +64,9 @@ const App = (props) => {
               <Route exact path="/project/predict/:projectId" render={(props) => <Predict {...props} />} />
               <Route exact path="/project/view_data_file/:projectId" render={(props) => <ViewData {...props} />} />
               <Route exact path="/project/view_plot/:projectId" render={(props) => <ViewPlot {...props} />} />
+              <Route exact path="/project/example/" render={(props) => <TableExample {...props} />} />
+              <Route exact path="/project/origexample/" render={(props) => <OrigTableExample {...props} />} />
+              <Route exact path="/project/roc/" render={(props) => <Project {...props} />} />
             </Switch>
           </Layout>
         </Router>
