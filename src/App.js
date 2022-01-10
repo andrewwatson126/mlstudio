@@ -13,6 +13,7 @@ import Predict from './pages/Predict';
 import ViewCorrelation from './pages/ViewCorrelation';
 import ViewData from './pages/ViewData';
 import ViewPlot from './pages/ViewPlot';
+import ViewROC from './pages/ViewROC';
 import TableExample from './pages/TableExample';
 import OrigTableExample from './pages/OrigTableExample';
 
@@ -41,7 +42,6 @@ const theme = createTheme({
 
 const App = (props) => {
 
-
   const [projectId, setProjectId] = useState();
 
   return (
@@ -66,7 +66,7 @@ const App = (props) => {
               <Route exact path="/project/view_plot/:projectId" render={(props) => <ViewPlot {...props} />} />
               <Route exact path="/project/example/" render={(props) => <TableExample {...props} />} />
               <Route exact path="/project/origexample/" render={(props) => <OrigTableExample {...props} />} />
-              <Route exact path="/project/roc/" render={(props) => <Project {...props} />} />
+              <Route exact path="/project/roc/:projectId" render={(props) => <ViewROC {...props} />} />
             </Switch>
           </Layout>
         </Router>

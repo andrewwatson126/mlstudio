@@ -75,7 +75,7 @@ const Layout = props => {
     { type: "link", name: "View Correlation", icon: <CompareArrowsIcon color="primary" />, path: '/project/view_correlation/' + projectId },
     { type: "caption", name: "Get Insight" },
     { type: "link", name: "View Plot", icon: <ScatterPlotIcon color="primary" />, path: '/project/view_plot/' + projectId },
-    { type: "link", name: "ROC Curve", icon: <MovingIcon color="primary" />, path: '/project/roc /' + projectId },
+    { type: "link", name: "ROC Curve", icon: <MovingIcon color="primary" />, path: '/project/roc/' + projectId },
     { type: "link", name: "View Data", icon: <DataArrayIcon color="primary" />, path: '/project/view_data_file/' + projectId },
     { type: "link", name: "Predict", icon: <OnlinePredictionIcon color="primary" />, path: '/project/predict/' + projectId }
   ];

@@ -170,7 +170,7 @@ const EnhancedTable = props => {
                 .map((correlation, index) => {
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={correlation.feature1 + '-' + correlation.feature2} >
+                    <TableRow hover role="checkbox" tabIndex={-1} key={index} >
                       <StyledTableCell  align="right">{correlation.feature1}</StyledTableCell >
                       <StyledTableCell  align="right">{correlation.feature2}</StyledTableCell >
                       <StyledTableCell  align="right">{correlation.correlation}</StyledTableCell >
