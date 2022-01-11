@@ -11,11 +11,10 @@ const useStyles = makeStyles(theme => ({
 
 const Notification = props => {
     const { notify, setNotify } = props;
+
     const classes = useStyles()
 
     const handleClose = (event, reason) => {
-        console.log('Notification=' + notify.type + '-' + notify.message)
-
         if (reason === 'clickaway') {
             return;
         }
