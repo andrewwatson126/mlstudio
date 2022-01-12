@@ -6,15 +6,9 @@ import mockProjectListData from "../data/mockProjectListData";
 import axios from "axios";
 import blankProjectData from "../data/blankProjectData";
 import ProjectHeader from '../components/ProjectHeader';
-/* 
-import { makeStyles } from "@material-ui/core/styles";
-*/
 import { makeStyles } from '@mui/styles';
+import { api, apiServerUrl } from '../data/apiServer'
 
-
-const api = axios.create({
-  baseURL: 'http://apiserver:8000/'
-})
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -44,8 +38,6 @@ const ViewData = props => {
 
   return (
     <>
-
-
       <Grid container spacing={9} >
         <ProjectHeader project={project} />
 

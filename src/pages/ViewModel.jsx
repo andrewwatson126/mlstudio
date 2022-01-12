@@ -11,10 +11,7 @@ import NumberFormat from 'react-number-format';
 import { PureComponent } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Notification from "../components/Notification";
-
-const api = axios.create({
-  baseURL: 'http://apiserver:8000/'
-})
+import { api, apiServerUrl } from '../data/apiServer'
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {

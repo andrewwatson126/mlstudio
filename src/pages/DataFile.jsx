@@ -15,10 +15,7 @@ import Avatar from '@mui/material/Avatar';
 import sherlock from "../images/sherlock.png";
 import CloseIcon from '@material-ui/icons/Close';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-
-const api = axios.create({
-  baseURL: 'http://apiserver:8000/'
-})
+import { api, apiServerUrl } from '../data/apiServer'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +75,7 @@ const DataFile = (props) => {
     fd.append('file', dataFile);
 
     axios({
-      url: 'http://apiserver:8000/projects/uploadfile?project_id=' + projectId,
+      url: apiServerUrl + '/projects/uploadfile?project_id=' + projectId,
       method: "POST",
       headers: { 'Content-Type': 'multipart/form-data' },
       data: fd

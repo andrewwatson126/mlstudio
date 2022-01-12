@@ -13,13 +13,8 @@ import Notification from "../components/Notification";
 import ConfusionMatrix from "../components/ConfusionMatrix";
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import { api, apiServerUrl } from '../data/apiServer'
 
-
-
-
-const api = axios.create({
-  baseURL: 'http://apiserver:8000/'
-})
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -78,7 +73,7 @@ const ViewROC = props => {
     if (rocList.length > 0) {
       axios({
         method: 'get',
-        url: 'http://apiserver:8000/projects/roc_plot_file/' + projectId,
+        url: apiServerUrl + '/projects/roc_plot_file/' + projectId,
         responseType: 'blob'
       })
         .then(function (res) {

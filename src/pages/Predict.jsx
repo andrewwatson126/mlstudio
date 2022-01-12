@@ -8,10 +8,7 @@ import { makeStyles } from '@mui/styles';
 import ProjectHeader from '../components/ProjectHeader';
 import Notification from "../components/Notification";
 import blankProjectData from "../data/blankProjectData";
-
-const api = axios.create({
-  baseURL: 'http://apiserver:8000/'
-})
+import { api, apiServerUrl } from '../data/apiServer'
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {

@@ -10,11 +10,8 @@ import ProjectHeader from '../components/ProjectHeader';
 import EnhancedTable from '../components/EnhancedTable';
 import { makeStyles } from '@mui/styles';
 import Notification from "../components/Notification";
+import { api, apiServerUrl } from '../data/apiServer'
 
-
-const api = axios.create({
-  baseURL: 'http://apiserver:8000/'
-})
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -61,7 +58,7 @@ const ViewCorrelation = props => {
 
     axios({
       method: 'get',
-      url: 'http://apiserver:8000/projects/correlation/' + projectId,
+      url: apiServerUrl + '/projects/correlation/' + projectId,
       responseType: 'blob'
     })
       .then(function (res) {

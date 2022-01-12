@@ -8,11 +8,8 @@ import blankProjectData from "../data/blankProjectData";
 import ProjectHeader from '../components/ProjectHeader';
 import { makeStyles } from '@mui/styles';
 import Notification from "../components/Notification";
+import { api, apiServerUrl } from '../data/apiServer'
 
-
-const api = axios.create({
-  baseURL: 'http://apiserver:8000/'
-})
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -73,7 +70,7 @@ const ViewPlot = props => {
 
           axios({
             method: 'get',
-            url: 'http://apiserver:8000/projects/plot_file/' + projectId + '?plot_file_name=' + pf,
+            url: apiServerUrl + '/projects/plot_file/' + projectId + '?plot_file_name=' + pf,
             responseType: 'blob'
           })
             .then(function (res) {

@@ -12,10 +12,8 @@ import Notification from "../components/Notification";
 import mockProjectListData from "../data/mockProjectListData";
 import DeleteIcon from '@mui/icons-material/Delete';
 import PreviewIcon from '@mui/icons-material/Preview';
+import { api, apiServerUrl } from '../data/apiServer'
 
-const api = axios.create({
-  baseURL: 'http://apiserver:8000/'
-})
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {

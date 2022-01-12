@@ -11,10 +11,8 @@ import axios from "axios";
 import { height } from "@mui/system";
 import ProjectHeader from '../components/ProjectHeader';
 import Notification from "../components/Notification";
+import { api, apiServerUrl } from '../data/apiServer'
 
-const api = axios.create({
-  baseURL: 'http://apiserver:8000/'
-})
 
 
 const useStyles = makeStyles((theme) => ({
